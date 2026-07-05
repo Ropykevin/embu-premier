@@ -1,0 +1,1114 @@
+{% extends "base.html" %}
+
+{% block title %}
+Embu Premier Physicians Clinic
+{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<section class="hero-section">
+
+    <div class="container">
+
+        <div class="row align-items-center gy-5">
+
+            <!-- LEFT -->
+
+            <div class="col-lg-6" data-aos="fade-right">
+
+                <span class="hero-badge">
+
+                    <i class="fas fa-shield-heart"></i>
+
+                    Trusted Specialist Healthcare
+
+                </span>
+
+                <h1 class="hero-title">
+
+                    Your Health
+
+                    <span>Is Our Priority</span>
+
+                </h1>
+
+                <p class="hero-text">
+
+                    Embu Premier Physicians Clinic provides comprehensive
+                    specialist healthcare through highly experienced
+                    consultants using modern medical technology and
+                    compassionate patient-centred care.
+
+                </p>
+
+                <div class="hero-features">
+
+                    <div>
+
+                        <i class="fas fa-user-md"></i>
+
+                        Experienced Specialists
+
+                    </div>
+
+                    <div>
+
+                        <i class="fas fa-heartbeat"></i>
+
+                        Patient-Centered Care
+
+                    </div>
+
+                    <div>
+
+                        <i class="fas fa-microscope"></i>
+
+                        Modern Equipment
+
+                    </div>
+
+                    <div>
+
+                        <i class="fas fa-calendar-check"></i>
+
+                        Easy Appointment Booking
+
+                    </div>
+
+                </div>
+
+                <div class="hero-buttons mt-4">
+
+                    <a href="{{ url_for('public.book_appointment') }}" class="btn btn-primary btn-lg me-3">
+
+                        <i class="fas fa-calendar-plus"></i>
+
+                        Book Appointment
+
+                    </a>
+
+                    <a href="{{ url_for('public.specialists') }}" class="btn btn-outline-primary btn-lg">
+
+                        Meet Our Specialists
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT -->
+
+            <div class="col-lg-6" data-aos="zoom-in">
+
+                <div class="hero-image-card">
+
+                    <img src="{{ url_for('static', filename='images/embupremier6.png') }}" class="img-fluid"
+                        alt="Reception">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="hero-stats">
+
+    <div class="container">
+
+        <div class="row text-center">
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-user-md"></i>
+
+                    <h2>8+</h2>
+
+                    <p>Specialist Consultants</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-stethoscope"></i>
+
+                    <h2>15+</h2>
+
+                    <p>Years of Excellence</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-hospital-user"></i>
+
+                    <h2>1000+</h2>
+
+                    <p>Patients Served</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="stat-card">
+
+                    <i class="fas fa-clock"></i>
+
+                    <h2>24/7</h2>
+
+                    <p>Patient Support</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ABOUT US -->
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <img src="{{ url_for('static', filename='images/embupremier4.png') }}" class="img-fluid rounded shadow">
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <h2 class="fw-bold mb-4">
+
+                    About Embu Premier Physicians Clinic
+
+                </h2>
+
+                <p>
+
+                    Embu Premier Physicians Clinic is a multidisciplinary
+                    healthcare facility committed to providing
+                    high-quality specialist medical care.
+
+                </p>
+
+                <p>
+
+                    Our team includes Family Physician,
+                    General Surgeon, Neurosurgeon,
+                    ENT Surgeon, Obstetrician & Gynecologist,
+                    Radiologist, Ophthalmologist and Urologist.
+
+                </p>
+
+                <a href="{{ url_for('public.about') }}" class="btn btn-primary">
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- MISSION & VISION -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <div class="card-body">
+
+                        <h3 class="text-primary">
+
+                            Our Mission
+
+                        </h3>
+
+                        <p>
+
+                            To provide accessible,
+                            high-quality and patient-centered
+                            healthcare through excellence in
+                            medical practice and compassionate care.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <div class="card-body">
+
+                        <h3 class="text-primary">
+
+                            Our Vision
+
+                        </h3>
+
+                        <p>
+
+                            To be the leading specialist healthcare
+                            provider recognized for clinical excellence,
+                            innovation and outstanding patient care.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Services Section -->
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                Our Specialist Services
+
+            </h2>
+
+            <p class="lead text-muted">
+
+                Comprehensive specialist healthcare services tailored to your needs.
+
+            </p>
+
+        </div>
+
+        <div id="servicesCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+            <div class="carousel-inner">
+
+                <!-- Family Physician -->
+
+                <div class="carousel-item active">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>🩺</h1>
+
+                            <h3>Family Physician</h3>
+
+                            <p>
+
+                                Comprehensive healthcare for individuals and families,
+                                including preventive care, chronic disease management
+                                and health screening.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- General Surgeon -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>🏥</h1>
+
+                            <h3>General Surgeon</h3>
+
+                            <p>
+
+                                Surgical consultation, diagnosis and treatment
+                                of various surgical conditions.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Neurosurgeon -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>🧠</h1>
+
+                            <h3>Neurosurgeon</h3>
+
+                            <p>
+
+                                Diagnosis and management of brain,
+                                spine and nervous system disorders.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ENT Surgeon -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>👂</h1>
+
+                            <h3>ENT Surgeon</h3>
+
+                            <p>
+
+                                Specialized care for ear, nose
+                                and throat conditions.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Obstetrician & Gynecologist -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>👶</h1>
+
+                            <h3>Obstetrician & Gynecologist</h3>
+
+                            <p>
+
+                                Women's healthcare including pregnancy,
+                                fertility and gynecological services.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Radiologist -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>🔬</h1>
+
+                            <h3>Radiologist</h3>
+
+                            <p>
+
+                                Diagnostic imaging services supporting
+                                accurate diagnosis and treatment.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Ophthalmologist -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>👁️</h1>
+
+                            <h3>Ophthalmologist</h3>
+
+                            <p>
+
+                                Comprehensive eye care, vision testing
+                                and treatment of eye diseases.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Urologist -->
+
+                <div class="carousel-item">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center p-5">
+
+                            <h1>🚹</h1>
+
+                            <h3>Urologist</h3>
+
+                            <p>
+
+                                Diagnosis and treatment of urinary tract
+                                and male reproductive system disorders.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#servicesCarousel" data-bs-slide="prev">
+
+                <span class="carousel-control-prev-icon"></span>
+
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#servicesCarousel" data-bs-slide="next">
+
+                <span class="carousel-control-next-icon"></span>
+
+            </button>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                Book Appointment
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- FEATURED SPECIALISTS -->
+
+<!-- Meet Our Specialists -->
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold text-primary">
+
+                Meet Our Specialists
+
+            </h2>
+
+            <p class="lead text-muted">
+
+                Our experienced consultants provide expert care across multiple specialties.
+
+            </p>
+
+        </div>
+
+        <div class="row">
+
+            <!-- Family Physician -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/family_medicine.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Family Physician
+
+                        </h5>
+
+                        <p>
+
+                            Comprehensive healthcare for individuals and families.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- General Surgeon -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/general_surgeon.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            General Surgeon
+
+                        </h5>
+
+                        <p>
+
+                            Expert surgical consultation and treatment.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Neurosurgeon -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/neurosurgeon.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Neurosurgeon
+
+                        </h5>
+
+                        <p>
+
+                            Brain, spine and nervous system specialist.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ENT Surgeon -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/ent_surgeon.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            ENT Surgeon
+
+                        </h5>
+
+                        <p>
+
+                            Specialist care for ear, nose and throat conditions.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Obstetrician & Gynecologist -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/obs.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Obstetrician & Gynecologist
+
+                        </h5>
+
+                        <p>
+
+                            Women's healthcare, pregnancy and fertility services.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Radiologist -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/radiology.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Radiologist
+
+                        </h5>
+
+                        <p>
+
+                            Diagnostic imaging and interpretation services.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Ophthalmologist -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/opthalmolgist.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Ophthalmologist
+
+                        </h5>
+
+                        <p>
+
+                            Comprehensive eye care and vision services.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Urologist -->
+
+            <div class="col-lg-3 col-md-6 mb-4">
+
+                <div class="card shadow h-100">
+
+                    <img src="{{ url_for('static', filename='images/urologist.png') }}" class="card-img-top"
+                        style="height:250px; object-fit:cover;">
+
+                    <div class="card-body text-center">
+
+                        <h5 class="fw-bold">
+
+                            Urologist
+
+                        </h5>
+
+                        <p>
+
+                            Diagnosis and treatment of urinary tract disorders.
+
+                        </p>
+
+                        <a href="/book-appointment" class="btn btn-primary">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4">
+
+            <a href="/specialists" class="btn btn-outline-primary btn-lg">
+
+                View All Specialists
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Testimonials Section -->
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                What Our Patients Say
+
+            </h2>
+
+            <p class="lead text-muted">
+
+                Trusted by patients for quality specialist healthcare.
+
+            </p>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 mb-4">
+
+                <div class="card shadow border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            ⭐⭐⭐⭐⭐
+
+                        </div>
+
+                        <p>
+
+                            The doctors were professional,
+                            attentive and took time to explain
+                            my condition clearly.
+
+                        </p>
+
+                        <h6 class="text-primary">
+
+                            Patient
+
+                        </h6>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mb-4">
+
+                <div class="card shadow border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            ⭐⭐⭐⭐⭐
+
+                        </div>
+
+                        <p>
+
+                            Booking an appointment online was
+                            simple and convenient. Excellent service.
+
+                        </p>
+
+                        <h6 class="text-primary">
+
+                            Patient
+
+                        </h6>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4 mb-4">
+
+                <div class="card shadow border-0 h-100">
+
+                    <div class="card-body">
+
+                        <div class="mb-3">
+
+                            ⭐⭐⭐⭐⭐
+
+                        </div>
+
+                        <p>
+
+                            I received outstanding specialist care
+                            and would highly recommend the clinic.
+
+                        </p>
+
+                        <h6 class="text-primary">
+
+                            Patient
+
+                        </h6>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+<!-- CTA -->
+
+<section class="text-center py-5">
+
+    <h2>
+
+        Need Specialist Medical Care?
+
+    </h2>
+
+    <p class="lead">
+
+        Schedule an appointment with one of our consultants today.
+
+    </p>
+
+    <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+        Book Appointment
+
+    </a>
+
+</section>
+
+<!-- CONTACT -->
+
+<section class="bg-light py-5">
+
+    <div class="container">
+
+        <div class="text-center">
+
+            <h2>
+
+                Contact Us
+
+            </h2>
+
+            <p>
+
+                Phone: +254792718222/+254720911086.
+
+            </p>
+
+            <p>
+
+                Email: embupremierclinic@gmail.com
+
+            </p>
+
+            <p>
+
+                Embu Town, Kenya
+
+            </p>
+        </div>
+
+    </div>
+
+</section>
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="text-center mb-5">
+
+            <h2 class="fw-bold">
+
+                Our Clinic Environment
+
+            </h2>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-4 mb-3">
+
+                <img src="{{ url_for('static',
+                filename='images/embupremier3.png') }}" class="img-fluid rounded shadow">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <img src="{{ url_for('static',
+                filename='images/embupremier4.png') }}" class="img-fluid rounded shadow">
+
+            </div>
+
+            <div class="col-md-4 mb-3">
+
+                <img src="{{ url_for('static',
+                filename='images/embupremier6.png') }}" class="img-fluid rounded shadow">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

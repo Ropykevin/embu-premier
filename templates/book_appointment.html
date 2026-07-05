@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+
+{% block title %}
+Book Appointment | Embu Premier Physicians Clinic
+{% endblock %}
+
+{% block content %}
+<div class="appointment-page">
+    <section class="py-5">
+
+        <div class="container">
+
+            <!-- Page Header -->
+
+            <div class="page-hero mb-5">
+
+                <img src="{{ url_for('static', filename='images/embupremier3.png') }}" alt="Appointment">
+
+                <div class="page-hero-overlay">
+
+                    <h1 class="display-5 fw-bold">Book Your Appointment</h1>
+                    <p class="lead mb-0">
+                        Schedule your consultation with one of our experienced specialist consultants.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Appointment Form -->
+
+                <div class="col-lg-8">
+
+                    <div class="card shadow-lg border-0 rounded-4">
+
+                        <div class="card-header bg-primary text-white rounded-top-4">
+
+                            <h3 class="mb-0">
+
+                                <i class="fas fa-user-md me-2"></i>
+
+                                Appointment Details
+
+                            </h3>
+
+                        </div>
+
+                        <div class="card-body p-4">
+
+                            <form method="POST">
+                            {{ form.hidden_tag() }}
+
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            <i class="fas fa-user text-primary"></i>
+
+                                            Full Name
+
+                                        </label>
+
+                                        <input type="text" name="patient_name" class="form-control"
+                                            placeholder="Enter Full Name" required>
+
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            <i class="fas fa-phone text-primary"></i>
+
+                                            Phone Number
+
+                                        </label>
+
+                                        <input type="text" name="phone" class="form-control" placeholder="+254..."
+                                            required>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">
+
+                                        <i class="fas fa-envelope text-primary"></i>
+
+                                        Email Address
+
+                                    </label>
+
+                                    <input type="email" name="email" class="form-control"
+                                        placeholder="example@email.com">
+
+                                </div>
+
+                                <!-- Select Consultant -->
+
+                                <div class="mb-4">
+
+                                    <label class="form-label">
+
+                                        <i class="fas fa-user-md text-primary me-2"></i>
+
+                                        Select Consultant
+
+                                    </label>
+
+                                    <select name="specialty" id="specialty" class="form-select" required
+                                        onchange="showSpecialtyInfo()">
+
+                                        <option value="">Select Consultant</option>
+
+                                        {% for specialty in specialties %}
+
+                                        <option value="{{ specialty }}">
+
+                                            {{ specialty }}
+
+                                        </option>
+
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+
+                                <!-- Consultant Information Card -->
+
+                                <div id="specialtyCard" class="card border-0 shadow rounded-4 mb-4"
+                                    style="display:none;">
+
+                                    <div class="card-body">
+
+                                        <h4 class="text-primary fw-bold mb-3">
+
+                                            <i class="fas fa-stethoscope me-2"></i>
+
+                                            Consultant Information
+
+                                        </h4>
+
+                                        <h5 id="specialtyTitle"></h5>
+
+                                        <p id="specialtyDescription" class="text-muted"></p>
+
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            <i class="fas fa-calendar-alt text-primary"></i>
+
+                                            Appointment Date
+
+                                        </label>
+
+                                        <input type="date" name="appointment_date" class="form-control" required>
+
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+
+                                            <i class="fas fa-clock text-primary"></i>
+
+                                            Appointment Time
+
+                                        </label>
+
+                                        <input type="time" name="appointment_time" class="form-control" required>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="mb-4">
+
+                                    <label class="form-label">
+
+                                        <i class="fas fa-notes-medical text-primary"></i>
+
+                                        Reason For Visit
+
+                                    </label>
+
+                                    <textarea name="reason_for_visit" rows="5" class="form-control"
+                                        placeholder="Briefly describe your health concern..."></textarea>
+
+                                </div>
+
+                                <div class="d-flex justify-content-between">
+
+                                    <a href="{{ url_for('public.index') }}" class="btn btn-outline-secondary btn-lg">
+
+                                        <i class="fas fa-arrow-left me-2"></i>
+
+                                        Back Home
+
+                                    </a>
+
+                                    <button type="submit" class="btn btn-primary btn-lg">
+
+                                        <i class="fas fa-paper-plane me-2"></i>
+
+                                        Submit Appointment
+
+                                    </button>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Right Sidebar -->
+
+                <div class="col-lg-4">
+
+                    <div class="card shadow border-0 rounded-4 mb-4">
+
+                        <div class="card-body text-center">
+
+                            <i class="fas fa-hospital fa-4x text-primary mb-3"></i>
+
+                            <h4 class="fw-bold">
+
+                                Why Choose Us?
+
+                            </h4>
+
+                            <hr>
+
+                            <p>
+
+                                ✔ Experienced Specialists
+
+                            </p>
+
+                            <p>
+
+                                ✔ Modern Diagnostic Equipment
+
+                            </p>
+
+                            <p>
+
+                                ✔ Patient-Centred Care
+
+                            </p>
+
+                            <p>
+
+                                ✔ Affordable Specialist Services
+
+                            </p>
+
+                            <p>
+
+                                ✔ Convenient Appointment Booking
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card border-0 shadow rounded-4">
+
+                        <div class="card-header bg-success text-white">
+
+                            Contact Information
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <p>
+
+                                <i class="fas fa-map-marker-alt text-danger"></i>
+
+                                Embu Town, Kenya
+
+                            </p>
+
+                            <p>
+
+                                <i class="fas fa-phone text-primary"></i>
+
+                                +254 792 718 222
+
+                            </p>
+
+                            <p>
+
+                                <i class="fas fa-envelope text-primary"></i>
+
+                                info@embupremierclinic.com
+
+                            </p>
+
+                            <hr>
+
+                            <div class="alert alert-warning mb-0">
+
+                                <strong>
+
+                                    Emergency Cases
+
+                                </strong>
+
+                                <br>
+
+                                Please call the clinic directly for urgent medical attention.
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+</div>
+
+<script>
+
+    const specialtyInfo = {
+
+        "Family Physician": {
+            title: "Family Physician",
+            description:
+                "Provides comprehensive healthcare for children, adults and the elderly including preventive care, diagnosis and treatment of common illnesses."
+        },
+
+        "General Surgeon": {
+            title: "General Surgeon",
+            description:
+                "Provides diagnosis and surgical treatment for abdominal conditions, hernias, breast disorders, thyroid diseases and other general surgical conditions."
+        },
+
+        "Neurosurgeon": {
+            title: "Neurosurgeon",
+            description:
+                "Specializes in the diagnosis and surgical treatment of disorders affecting the brain, spine and nervous system."
+        },
+
+        "ENT Surgeon": {
+            title: "ENT Surgeon",
+            description:
+                "Treats diseases affecting the ear, nose, throat, head and neck using medical and surgical approaches."
+        },
+
+        "Obstetrician & Gynaecologist": {
+            title: "Obstetrician & Gynaecologist",
+            description:
+                "Provides comprehensive care for women's reproductive health, pregnancy, childbirth and gynaecological conditions."
+        },
+
+        "Radiologist": {
+            title: "Radiologist",
+            description:
+                "Provides diagnostic imaging services including X-rays, Ultrasound, CT Scan and MRI interpretation."
+        },
+
+        "Ophthalmologist": {
+            title: "Ophthalmologist",
+            description:
+                "Diagnoses and treats eye diseases, performs eye surgery and helps preserve and restore vision."
+        },
+
+        "Urologist": {
+            title: "Urologist",
+            description:
+                "Specializes in diseases affecting the urinary tract and male reproductive system."
+        }
+
+    };
+
+    function showSpecialtyInfo() {
+
+        let specialty = document.getElementById("specialty").value;
+
+        let card = document.getElementById("specialtyCard");
+
+        if (specialty === "") {
+
+            card.style.display = "none";
+
+            return;
+
+        }
+
+        card.style.display = "block";
+
+        document.getElementById("specialtyTitle").innerHTML =
+            specialtyInfo[specialty].title;
+
+        document.getElementById("specialtyDescription").innerHTML =
+            specialtyInfo[specialty].description;
+
+    }
+
+</script>
+{% endblock %}

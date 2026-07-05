@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>{% block admin_title %}Admin{% endblock %} · Embu Premier Clinic</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap"
+        rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo.png') }}">
+</head>
+
+<body class="admin-body">
+
+    <div class="admin-shell" id="adminShell">
+
+        <!-- Sidebar -->
+        <aside class="admin-sidebar" id="adminSidebar" aria-label="Admin navigation">
+
+            <div class="admin-sidebar-brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Clinic logo">
+                <div>
+                    <span class="admin-sidebar-brand-name">Embu Premier</span>
+                    <span class="admin-sidebar-brand-sub">Staff Portal</span>
+                </div>
+            </div>
+
+            <nav class="admin-sidebar-nav">
+
+                {% set ep = request.endpoint %}
+                {% set is_pending_view = ep == 'admin.admin_appointments' and request.args.get('status') == 'Pending' %}
+                {% set is_appt_section = ep in ['admin.admin_appointments', 'admin.admin_appointment_detail'] %}
+                {% set doctor_eps = ['admin.manage_doctors', 'admin.edit_doctor', 'admin.delete_doctor'] %}
+
+                <p class="admin-nav-label">Overview</p>
+                <a href="{{ url_for('admin.admin_dashboard') }}"
+                    class="admin-nav-link {{ 'active' if ep == 'admin.admin_dashboard' else '' }}">
+                    <i class="fas fa-gauge-high"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <p class="admin-nav-label">Patient care</p>
+                <a href="{{ url_for('admin.admin_appointments') }}"
+                    class="admin-nav-link {{ 'active' if is_appt_section and not is_pending_view else '' }}">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Appointments</span>
+                    {% if admin_pending_count %}
+                    <span class="admin-nav-badge">{{ admin_pending_count }}</span>
+                    {% endif %}
+                </a>
+                <a href="{{ url_for('admin.admin_appointments', status='Pending') }}"
+                    class="admin-nav-link admin-nav-sublink {{ 'active' if is_pending_view else '' }}">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span>Pending queue</span>
+                    {% if admin_pending_count %}
+                    <span class="admin-nav-badge admin-nav-badge-warning">{{ admin_pending_count }}</span>
+                    {% endif %}
+                </a>
+
+                <p class="admin-nav-label">Communication</p>
+                <a href="{{ url_for('admin.admin_messages') }}"
+                    class="admin-nav-link {{ 'active' if ep == 'admin.admin_messages' else '' }}">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact messages</span>
+                    {% if admin_message_count %}
+                    <span class="admin-nav-badge">{{ admin_message_count }}</span>
+                    {% endif %}
+                </a>
+
+                <p class="admin-nav-label">Staff</p>
+                <a href="{{ url_for('admin.manage_doctors') }}"
+                    class="admin-nav-link {{ 'active' if ep in doctor_eps else '' }}">
+                    <i class="fas fa-user-md"></i>
+                    <span>Doctors</span>
+                </a>
+                <a href="{{ url_for('admin.add_doctor') }}"
+                    class="admin-nav-link admin-nav-sublink {{ 'active' if ep == 'admin.add_doctor' else '' }}">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Add doctor</span>
+                </a>
+
+            </nav>
+
+            <div class="admin-sidebar-footer">
+                <a href="{{ url_for('public.index') }}" class="admin-nav-link" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View public site</span>
+                </a>
+                <form method="POST" action="{{ url_for('admin.admin_logout') }}" class="d-inline">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="admin-nav-link admin-nav-logout border-0 bg-transparent w-100 text-start">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Sign out</span>
+                    </button>
+                </form>
+            </div>
+
+        </aside>
+
+        <div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" aria-hidden="true"></div>
+
+        <!-- Main area -->
+        <div class="admin-main">
+
+            <header class="admin-topbar">
+                <button type="button" class="admin-sidebar-toggle" id="adminSidebarToggle"
+                    aria-label="Toggle navigation" aria-expanded="false" aria-controls="adminSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="admin-topbar-title d-lg-none">Staff Portal</div>
+
+                <div class="admin-topbar-user ms-auto">
+                    <span class="admin-user-name">
+                        <i class="fas fa-user-shield me-1"></i>
+                        {{ session.get('admin_name', 'Admin') }}
+                    </span>
+                </div>
+            </header>
+
+            <div class="admin-content">
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <div class="admin-flash">
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show shadow-sm" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <div class="admin-page-header">
+                    <div>
+                        {% block admin_breadcrumb %}
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb admin-breadcrumb mb-1">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    {{ self.admin_heading() }}
+                                </li>
+                            </ol>
+                        </nav>
+                        {% endblock %}
+                        <h1 class="admin-page-title">{% block admin_heading %}Admin{% endblock %}</h1>
+                        {% block admin_subtitle %}{% endblock %}
+                    </div>
+                    <div class="admin-page-actions">
+                        {% block admin_actions %}{% endblock %}
+                    </div>
+                </div>
+
+                {% block admin_content %}{% endblock %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            const shell = document.getElementById('adminShell');
+            const toggle = document.getElementById('adminSidebarToggle');
+            const backdrop = document.getElementById('adminSidebarBackdrop');
+
+            function closeSidebar() {
+                shell.classList.remove('sidebar-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+
+            toggle.addEventListener('click', () => {
+                const open = shell.classList.toggle('sidebar-open');
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            });
+
+            backdrop.addEventListener('click', closeSidebar);
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 992) closeSidebar();
+            });
+        })();
+    </script>
+</body>
+
+</html>

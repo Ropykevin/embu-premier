@@ -1,0 +1,127 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Dashboard{% endblock %}
+{% block admin_heading %}Dashboard{% endblock %}
+
+{% block admin_subtitle %}
+<p class="admin-page-lead">Welcome back, {{ session['admin_name'] }}.</p>
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="row g-4 mb-4">
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('admin.admin_appointments') }}" class="admin-stat-card admin-stat-primary">
+            <div class="admin-stat-icon"><i class="fas fa-calendar-check"></i></div>
+            <div>
+                <span class="admin-stat-value">{{ total_appointments }}</span>
+                <span class="admin-stat-label">Total appointments</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('admin.admin_appointments', status='Pending') }}" class="admin-stat-card admin-stat-warning">
+            <div class="admin-stat-icon"><i class="fas fa-hourglass-half"></i></div>
+            <div>
+                <span class="admin-stat-value">{{ pending }}</span>
+                <span class="admin-stat-label">Pending review</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('admin.manage_doctors') }}" class="admin-stat-card admin-stat-success">
+            <div class="admin-stat-icon"><i class="fas fa-user-md"></i></div>
+            <div>
+                <span class="admin-stat-value">{{ doctors }}</span>
+                <span class="admin-stat-label">Doctors on staff</span>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+        <a href="{{ url_for('admin.admin_messages') }}" class="admin-stat-card admin-stat-info">
+            <div class="admin-stat-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+                <span class="admin-stat-value">{{ messages }}</span>
+                <span class="admin-stat-label">Contact messages</span>
+            </div>
+        </a>
+    </div>
+
+</div>
+
+<div class="row g-4">
+
+    <div class="col-lg-8">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title"><i class="fas fa-bolt me-2"></i>Quick actions</h2>
+            </div>
+            <div class="admin-card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="{{ url_for('admin.admin_appointments', status='Pending') }}" class="admin-quick-link">
+                            <i class="fas fa-hourglass-half"></i>
+                            <span>
+                                <strong>Review pending</strong>
+                                <small>{{ pending }} appointment{{ 's' if pending != 1 else '' }} waiting</small>
+                            </span>
+                            <i class="fas fa-chevron-right ms-auto"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('admin.admin_appointments') }}" class="admin-quick-link">
+                            <i class="fas fa-list"></i>
+                            <span>
+                                <strong>All appointments</strong>
+                                <small>View, confirm, or cancel</small>
+                            </span>
+                            <i class="fas fa-chevron-right ms-auto"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('admin.add_doctor') }}" class="admin-quick-link">
+                            <i class="fas fa-user-plus"></i>
+                            <span>
+                                <strong>Add doctor</strong>
+                                <small>Register a new specialist</small>
+                            </span>
+                            <i class="fas fa-chevron-right ms-auto"></i>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="{{ url_for('admin.admin_messages') }}" class="admin-quick-link">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <span>
+                                <strong>Contact inbox</strong>
+                                <small>Messages from the website</small>
+                            </span>
+                            <i class="fas fa-chevron-right ms-auto"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title"><i class="fas fa-circle-info me-2"></i>Workflow tips</h2>
+            </div>
+            <div class="admin-card-body">
+                <ul class="admin-tip-list">
+                    <li>New bookings arrive as <strong>Pending</strong> — assign a doctor, then confirm.</li>
+                    <li>Confirming sends email &amp; SMS to the patient and assigned doctor.</li>
+                    <li>Use <strong>Admin notes</strong> for internal staff comments only.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

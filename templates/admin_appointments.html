@@ -1,0 +1,97 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Appointments{% endblock %}
+{% block admin_heading %}Appointments{% endblock %}
+
+{% block admin_subtitle %}
+<p class="admin-page-lead">Manage booking requests and appointment status.</p>
+{% endblock %}
+
+{% block admin_actions %}
+<a href="{{ url_for('admin.admin_appointments', status='Pending') }}" class="btn btn-warning btn-sm">
+    <i class="fas fa-hourglass-half me-1"></i> Pending
+    {% if admin_pending_count %}({{ admin_pending_count }}){% endif %}
+</a>
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-filter-bar mb-4">
+    <div class="admin-filter-tabs" role="group" aria-label="Filter by status">
+        <a href="{{ url_for('admin.admin_appointments') }}"
+            class="admin-filter-tab {{ 'active' if not current_status else '' }}">
+            All
+        </a>
+        {% for status in statuses %}
+        <a href="{{ url_for('admin.admin_appointments', status=status) }}"
+            class="admin-filter-tab {{ 'active' if current_status == status else '' }}">
+            {{ status }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-body table-responsive p-0">
+
+        <table class="table admin-table mb-0">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Patient</th>
+                    <th>Phone</th>
+                    <th>Doctor</th>
+                    <th>Specialty</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for appointment in appointments %}
+
+                <tr>
+                    <td><span class="text-muted">#{{ appointment.appointment_id }}</span></td>
+                    <td class="fw-semibold">{{ appointment.patient_name }}</td>
+                    <td>{{ appointment.phone }}</td>
+                    <td>{{ appointment.doctor.doctor_name if appointment.doctor else 'Unassigned' }}</td>
+                    <td>{{ appointment.specialty or (appointment.doctor.specialty if appointment.doctor else '—') }}</td>
+                    <td>{{ appointment.appointment_date }}</td>
+                    <td>{{ appointment.appointment_time }}</td>
+                    <td>
+                        {% set badge = status_badges.get(appointment.appointment_status, 'secondary') %}
+                        <span class="badge bg-{{ badge }} {{ 'text-dark' if badge == 'warning' else '' }}">
+                            {{ appointment.appointment_status }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <a href="{{ url_for('admin.admin_appointment_detail', appointment_id=appointment.appointment_id) }}"
+                            class="btn btn-primary btn-sm">
+                            Manage
+                        </a>
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-5">
+                        <i class="fas fa-calendar-xmark fa-2x mb-2 d-block opacity-50"></i>
+                        No appointments found{% if current_status %} with status "{{ current_status }}"{% endif %}.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

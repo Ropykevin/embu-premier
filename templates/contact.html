@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+
+{% block title %}
+Contact Us | Embu Premier Physicians Clinic
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= PAGE HEADER ================= -->
+
+<section class="py-5 bg-primary text-white page-header-banner">
+
+    <div class="container text-center">
+
+        <h1 class="display-4 fw-bold">
+
+            <i class="fas fa-phone-alt me-2"></i>
+
+            Contact Embu Premier Physicians Clinic
+
+        </h1>
+
+        <p class="lead">
+
+            We are here to answer your questions, book appointments and
+            provide specialist healthcare support.
+
+        </p>
+
+    </div>
+
+</section>
+
+<!-- ================= CONTACT SECTION ================= -->
+
+<section class="py-5">
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            <!-- CONTACT FORM -->
+
+            <div class="col-lg-7">
+
+                <div class="card border-0 shadow-lg rounded-4">
+
+                    <div class="card-header bg-primary text-white rounded-top-4">
+
+                        <h3 class="mb-0">
+
+                            <i class="fas fa-envelope me-2"></i>
+
+                            Send Us a Message
+
+                        </h3>
+
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        <form method="POST">
+                        {{ form.hidden_tag() }}
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">
+
+                                        <i class="fas fa-user text-primary"></i>
+
+                                        Full Name
+
+                                    </label>
+
+                                    <input type="text" name="full_name" class="form-control"
+                                        placeholder="Enter your full name" required>
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+
+                                    <label class="form-label">
+
+                                        <i class="fas fa-phone text-primary"></i>
+
+                                        Phone Number
+
+                                    </label>
+
+                                    <input type="text" name="phone" class="form-control" placeholder="+2547XXXXXXXX">
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+
+                                    <i class="fas fa-envelope text-primary"></i>
+
+                                    Email Address
+
+                                </label>
+
+                                <input type="email" name="email" class="form-control" placeholder="example@email.com">
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label">
+
+                                    <i class="fas fa-tag text-primary"></i>
+
+                                    Subject
+
+                                </label>
+
+                                <input type="text" name="subject" class="form-control" placeholder="Message Subject">
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+
+                                    <i class="fas fa-comment-medical text-primary"></i>
+
+                                    Message
+
+                                </label>
+
+                                <textarea name="message" rows="6" class="form-control"
+                                    placeholder="Type your message here..." required></textarea>
+
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+
+                                <a href="{{ url_for('public.index') }}" class="btn btn-outline-secondary btn-lg">
+
+                                    <i class="fas fa-arrow-left me-2"></i>
+
+                                    Back Home
+
+                                </a>
+
+                                <button type="submit" class="btn btn-primary btn-lg">
+
+                                    <i class="fas fa-paper-plane me-2"></i>
+
+                                    Send Message
+
+                                </button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CONTACT DETAILS -->
+
+            <div class="col-lg-5">
+
+                <!-- Clinic Information -->
+
+                <div class="card shadow border-0 rounded-4 mb-4">
+
+                    <div class="card-body">
+
+                        <h4 class="text-primary fw-bold mb-4">
+
+                            <i class="fas fa-hospital me-2"></i>
+
+                            Clinic Information
+
+                        </h4>
+
+                        <p>
+
+                            <i class="fas fa-phone text-primary me-2"></i>
+
+                            <strong>Phone</strong><br>
+
+                            +254 792 718 222<br>
+
+                            +254 720 911 086
+
+                        </p>
+
+                        <hr>
+
+                        <p>
+
+                            <i class="fas fa-envelope text-primary me-2"></i>
+
+                            <strong>Email</strong><br>
+
+                            embupremierclinic@gmail.com
+
+                        </p>
+
+                        <hr>
+
+                        <p>
+
+                            <i class="fas fa-map-marker-alt text-danger me-2"></i>
+
+                            <strong>Address</strong><br>
+
+                            P.O. Box 2586-60100<br>
+
+                            Embu Town, Kenya
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Opening Hours -->
+
+                <div class="card shadow border-0 rounded-4 mb-4">
+
+                    <div class="card-body">
+
+                        <h4 class="text-success fw-bold">
+
+                            <i class="fas fa-clock me-2"></i>
+
+                            Opening Hours
+
+                        </h4>
+
+                        <table class="table table-borderless">
+
+                            <tr>
+
+                                <td>Monday - Friday</td>
+
+                                <td><strong>9:00 AM - 6:00 PM</strong></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Saturday</td>
+
+                                <td class="text-danger"><strong>Closed</strong></td>
+
+                            </tr>
+
+                            <tr>
+
+                                <td>Sunday</td>
+
+                                <td class="text-danger">
+
+                                    Closed
+
+                                </td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- Emergency -->
+
+                <div class="card bg-danger text-white border-0 shadow rounded-4 mb-4">
+
+                    <div class="card-body text-center">
+
+                        <h4>
+
+                            <i class="fas fa-ambulance"></i>
+
+                            Emergency?
+
+                        </h4>
+
+                        <p>
+
+                            For urgent medical attention kindly call us immediately.
+
+                        </p>
+
+                        <a href="tel:+254792718222" class="btn btn-light">
+
+                            <i class="fas fa-phone"></i>
+
+                            Call Now
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <!-- WhatsApp -->
+
+                <div class="card border-0 shadow rounded-4">
+
+                    <div class="card-body text-center">
+
+                        <h4 class="text-success">
+
+                            <i class="fab fa-whatsapp"></i>
+
+                            WhatsApp
+
+                        </h4>
+
+                        <p>
+
+                            Chat with our customer care team.
+
+                        </p>
+
+                        <a href="https://wa.me/254792718222" target="_blank" class="btn btn-success btn-lg">
+
+                            <i class="fab fa-whatsapp me-2"></i>
+
+                            Chat on WhatsApp
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- ================= GOOGLE MAP ================= -->
+
+<section class="pb-5">
+
+    <div class="container">
+
+        <div class="card border-0 shadow-lg rounded-4">
+
+            <div class="card-header bg-primary text-white">
+
+                <h3>
+
+                    <i class="fas fa-map-marked-alt me-2"></i>
+
+                    Find Our Clinic
+
+                </h3>
+
+            </div>
+
+            <div class="card-body p-0">
+
+                <iframe src="https://www.google.com/maps?q=Embu+Town,+Kenya&output=embed" width="100%" height="450"
+                    style="border:0;" allowfullscreen loading="lazy">
+
+                </iframe>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

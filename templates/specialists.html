@@ -1,0 +1,467 @@
+{% extends "base.html" %}
+
+{% block title %}
+Meet Our Specialists
+{% endblock %}
+
+{% block content %}
+
+<section class="py-5">
+
+    <div class="container">
+
+        <!-- Page Header -->
+
+        <div class="text-center mb-5">
+
+            <span class="section-badge">Embu Premier Physicians Specialists Clinic</span>
+
+            <h1 class="section-title display-5">Meet Our Specialists</h1>
+
+            <p class="section-subtitle mx-auto" style="max-width:850px;">
+
+                Our team of highly qualified specialists is committed to
+                delivering exceptional healthcare through accurate diagnosis,
+                advanced treatment and compassionate patient-centred care.
+                Explore our specialists and book an appointment with the
+                consultant best suited to your healthcare needs.
+
+            </p>
+
+            <div class="mt-4">
+
+                <a href="{{ url_for('public.index') }}" class="btn btn-outline-primary btn-lg me-3">
+
+                    <i class="fas fa-home me-2"></i>
+
+                    Back Home
+
+                </a>
+
+                <a href="{{ url_for('public.book_appointment') }}" class="btn btn-primary btn-lg">
+
+                    <i class="fas fa-calendar-check me-2"></i>
+
+                    Book Appointment
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Carousel -->
+
+        <div id="specialistsCarousel" class="carousel slide carousel-fade shadow-lg rounded-4 overflow-hidden"
+            data-bs-ride="carousel" data-bs-interval="5000">
+
+            <!-- Indicators -->
+
+            <div class="carousel-indicators">
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="0" class="active">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="1">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="2">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="3">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="4">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="5">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="6">
+                </button>
+
+                <button type="button" data-bs-target="#specialistsCarousel" data-bs-slide-to="7">
+                </button>
+
+            </div>
+
+            <div class="carousel-inner">
+
+                <!-- ================= FAMILY PHYSICIAN ================= -->
+
+                <div class="carousel-item active">
+
+                    <div class="row align-items-center g-5 p-5">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/family_medicine.png') }}"
+                                class="img-fluid rounded-4 shadow specialist-image" alt="Family Physician">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <span class="badge bg-primary mb-3">
+
+                                Primary Care
+
+                            </span>
+
+                            <h2 class="fw-bold text-primary mb-3">
+
+                                Family Physician
+
+                            </h2>
+
+                            <p class="lead text-muted">
+
+                                Our Family Physician provides comprehensive
+                                healthcare for children, adults and the elderly,
+                                focusing on preventive care, diagnosis,
+                                treatment, chronic disease management and
+                                promoting healthy living for individuals
+                                and families.
+
+                            </p>
+
+                            <div class="mt-4">
+
+                                <a href="{{ url_for('public.book_appointment') }}" class="btn btn-primary btn-lg me-3">
+
+                                    <i class="fas fa-calendar-plus me-2"></i>
+
+                                    Book Appointment
+
+                                </a>
+
+                                <a href="{{ url_for('public.index') }}" class="btn btn-outline-primary btn-lg">
+
+                                    <i class="fas fa-home me-2"></i>
+
+                                    Home
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- GENERAL SURGEON -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/general_surgeon.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                General Surgeon
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Our General Surgeon offers expert surgical
+                                consultation, diagnosis and operative
+                                management using modern surgical
+                                techniques and evidence-based care.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- NEUROSURGEON -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/neurosurgeon.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                Neurosurgeon
+
+                            </h2>
+
+                            <p class="lead">
+
+                                We diagnose and treat disorders affecting
+                                the brain, spine and nervous system using
+                                advanced neurosurgical expertise.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ENT -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/ent_surgeon.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                ENT Surgeon
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Expert diagnosis and treatment of ear,
+                                nose and throat disorders using modern
+                                medical and surgical techniques.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- OBGYN -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/obs.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                Obstetrician & Gynecologist
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Compassionate care for women including
+                                antenatal care, fertility services,
+                                reproductive health and gynaecological
+                                surgery.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- RADIOLOGIST -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/radiology.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                Radiologist
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Accurate diagnostic imaging and expert
+                                interpretation supporting timely diagnosis
+                                and treatment planning.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- OPHTHALMOLOGIST -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/opthalmolgist.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                Ophthalmologist
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Comprehensive eye care services including
+                                diagnosis, treatment and management of
+                                eye diseases and vision disorders.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- UROLOGIST -->
+
+                <div class="carousel-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-6">
+
+                            <img src="{{ url_for('static', filename='images/urologist.png') }}"
+                                class="d-block w-100 specialist-image">
+
+                        </div>
+
+                        <div class="col-lg-6">
+
+                            <h2 class="text-primary fw-bold">
+
+                                Urologist
+
+                            </h2>
+
+                            <p class="lead">
+
+                                Expert diagnosis and treatment of urinary
+                                tract conditions and disorders affecting
+                                the male reproductive system.
+
+                            </p>
+
+                            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                                Book Appointment
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Controls -->
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#specialistsCarousel"
+                data-bs-slide="prev">
+
+                <span class="carousel-control-prev-icon"></span>
+
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#specialistsCarousel"
+                data-bs-slide="next">
+
+                <span class="carousel-control-next-icon"></span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

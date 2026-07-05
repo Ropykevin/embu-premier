@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ doctor.doctor_name }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card doctor-profile-card shadow-lg border-0">
+
+        <div class="row g-0">
+
+            <div class="col-md-4">
+
+                {% if doctor.profile_photo %}
+
+                <img src="{{ url_for('static', filename='uploads/doctors/' + doctor.profile_photo) }}"
+                    class="img-fluid rounded-start" alt="{{ doctor.doctor_name }}">
+
+                {% else %}
+
+                <img src="{{ url_for('static', filename='images/default-doctor.jpg') }}" class="img-fluid rounded-start"
+                    alt="Doctor">
+
+                {% endif %}
+
+            </div>
+
+            <div class="col-md-8">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold">
+
+                        {{ doctor.doctor_name }}
+
+                    </h2>
+
+                    <h5 class="text-primary">
+
+                        {{ doctor.specialty }}
+
+                    </h5>
+
+                    <hr>
+
+                    <p>
+
+                        <strong>Qualifications:</strong>
+
+                        {{ doctor.qualifications }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Experience:</strong>
+
+                        {{ doctor.experience_years }} Years
+
+                    </p>
+
+                    <p>
+
+                        <strong>Consultation Fee:</strong>
+
+                        KES {{ doctor.consultation_fee }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Availability:</strong>
+
+                        {{ doctor.availability_status }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Phone:</strong>
+
+                        {{ doctor.phone }}
+
+                    </p>
+
+                    <p>
+
+                        <strong>Email:</strong>
+
+                        {{ doctor.email }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+
+                About the Specialist
+
+            </h3>
+
+            <p>
+
+                {{ doctor.biography }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+
+        <a href="{{ url_for('public.book_appointment', doctor_id=doctor.doctor_id) }}" class="btn btn-primary btn-lg">
+
+            Book Appointment
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

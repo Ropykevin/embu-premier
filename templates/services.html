@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block title %}
+Our Services
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="fw-bold">
+            Our Medical Services
+        </h1>
+
+        <p class="lead text-muted">
+
+            Comprehensive specialist healthcare services
+            delivered by experienced consultants.
+
+        </p>
+
+    </div>
+
+    <div class="row">
+
+        <!-- Services Section -->
+
+        <div class="container py-5">
+
+            <div class="text-center mb-5">
+
+                <h1 class="fw-bold text-primary">
+
+                    Our Specialist Services
+
+                </h1>
+
+                <p class="lead text-muted">
+
+                    Comprehensive specialist healthcare services
+                    delivered by experienced consultants.
+
+                </p>
+
+            </div>
+
+            <div class="row">
+
+                <!-- Family Physician -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/family_medicine.png') }}" class="card-img-top"
+                            alt="Family Physician">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Family Physician
+
+                            </h5>
+
+                            <p>
+
+                                Comprehensive healthcare for individuals
+                                and families including preventive care,
+                                health screening and chronic disease management.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- General Surgeon -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/general_surgeon.png') }}" class="card-img-top"
+                            alt="General Surgeon">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                General Surgeon
+
+                            </h5>
+
+                            <p>
+
+                                Surgical consultation and treatment
+                                for a wide range of conditions requiring
+                                operative management.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Neurosurgeon -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/neurosurgeon.png') }}" class="card-img-top"
+                            alt="Neurosurgeon">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Neurosurgeon
+
+                            </h5>
+
+                            <p>
+
+                                Specialized care for disorders of
+                                the brain, spine and nervous system.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ENT Surgeon -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/ent_surgeon.png') }}" class="card-img-top"
+                            alt="ENT Surgeon">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                ENT Surgeon
+
+                            </h5>
+
+                            <p>
+
+                                Expert management of conditions
+                                affecting the ear, nose and throat.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Obstetrician & Gynecologist -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/obs.png') }}" class="card-img-top"
+                            alt="Obstetrician">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Obstetrician & Gynecologist
+
+                            </h5>
+
+                            <p>
+
+                                Women's healthcare including pregnancy,
+                                fertility and gynecological services.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Radiologist -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/radiology.png') }}" class="card-img-top"
+                            alt="Radiologist">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Radiologist
+
+                            </h5>
+
+                            <p>
+
+                                Diagnostic imaging services supporting
+                                accurate diagnosis and treatment planning.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Ophthalmologist -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/opthalmolgist.png') }}" class="card-img-top"
+                            alt="Ophthalmologist">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Ophthalmologist
+
+                            </h5>
+
+                            <p>
+
+                                Comprehensive eye care including
+                                diagnosis and treatment of eye disorders.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Urologist -->
+
+                <div class="col-lg-3 col-md-6 mb-4">
+
+                    <div class="card shadow h-100">
+
+                        <img src="{{ url_for('static', filename='images/urologist.png') }}" class="card-img-top"
+                            alt="Urologist">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold text-primary">
+
+                                Urologist
+
+                            </h5>
+
+                            <p>
+
+                                Expert care for urinary tract and
+                                male reproductive system conditions.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CTA -->
+
+        <div class="text-center mt-5">
+
+            <h3>
+                Need Specialist Medical Care?
+            </h3>
+
+            <p>
+
+                Schedule an appointment with one of our consultants today.
+
+            </p>
+
+            <a href="/book-appointment" class="btn btn-primary btn-lg">
+
+                Book Appointment
+
+            </a>
+
+        </div>
+
+    </div>
+
+    {% endblock %}

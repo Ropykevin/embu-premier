@@ -1,0 +1,63 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Contact Messages{% endblock %}
+{% block admin_heading %}Contact messages{% endblock %}
+
+{% block admin_subtitle %}
+<p class="admin-page-lead">Inquiries submitted through the public contact form.</p>
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+    <div class="admin-card-body table-responsive p-0">
+
+        <table class="table admin-table mb-0">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Submitted</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for message in messages %}
+
+                <tr>
+                    <td><span class="text-muted">#{{ message.message_id }}</span></td>
+                    <td class="fw-semibold">{{ message.full_name }}</td>
+                    <td>
+                        <a href="tel:{{ message.phone }}">{{ message.phone }}</a>
+                    </td>
+                    <td>
+                        <a href="mailto:{{ message.email }}">{{ message.email }}</a>
+                    </td>
+                    <td>{{ message.subject }}</td>
+                    <td>{{ message.submitted_at }}</td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-5">
+                        <i class="fas fa-inbox fa-2x mb-2 d-block opacity-50"></i>
+                        No contact messages yet.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

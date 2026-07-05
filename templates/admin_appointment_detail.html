@@ -1,0 +1,192 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Appointment #{{ appointment.appointment_id }}{% endblock %}
+
+{% block admin_breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb admin-breadcrumb mb-1">
+        <li class="breadcrumb-item"><a href="{{ url_for('admin.admin_dashboard') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('admin.admin_appointments') }}">Appointments</a></li>
+        <li class="breadcrumb-item active" aria-current="page">#{{ appointment.appointment_id }}</li>
+    </ol>
+</nav>
+{% endblock %}
+
+{% block admin_heading %}Appointment #{{ appointment.appointment_id }}{% endblock %}
+
+{% block admin_subtitle %}
+{% set badge = status_badges.get(appointment.appointment_status, 'secondary') %}
+<span class="badge bg-{{ badge }} {{ 'text-dark' if badge == 'warning' else '' }} fs-6">
+    {{ appointment.appointment_status }}
+</span>
+{% endblock %}
+
+{% block admin_actions %}
+<a href="{{ url_for('admin.admin_appointments') }}" class="btn btn-outline-secondary btn-sm">
+    <i class="fas fa-arrow-left me-1"></i> Back to list
+</a>
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="row g-4">
+
+    <div class="col-lg-7">
+
+        <div class="admin-card mb-4">
+            <div class="admin-card-header admin-card-header-primary">
+                <h2 class="admin-card-title"><i class="fas fa-user me-2"></i>Patient details</h2>
+            </div>
+            <div class="admin-card-body">
+                <dl class="row mb-0 admin-detail-list">
+                    <dt class="col-sm-4">Name</dt>
+                    <dd class="col-sm-8">{{ appointment.patient_name }}</dd>
+
+                    <dt class="col-sm-4">Phone</dt>
+                    <dd class="col-sm-8">
+                        <a href="tel:{{ appointment.phone }}">{{ appointment.phone }}</a>
+                    </dd>
+
+                    <dt class="col-sm-4">Email</dt>
+                    <dd class="col-sm-8">
+                        {% if appointment.email %}
+                        <a href="mailto:{{ appointment.email }}">{{ appointment.email }}</a>
+                        {% else %}
+                        <span class="text-muted">Not provided</span>
+                        {% endif %}
+                    </dd>
+
+                    <dt class="col-sm-4">Specialty</dt>
+                    <dd class="col-sm-8">{{ appointment.specialty or '—' }}</dd>
+
+                    <dt class="col-sm-4">Date</dt>
+                    <dd class="col-sm-8">{{ appointment.appointment_date }}</dd>
+
+                    <dt class="col-sm-4">Time</dt>
+                    <dd class="col-sm-8">{{ appointment.appointment_time }}</dd>
+
+                    <dt class="col-sm-4">Reason for visit</dt>
+                    <dd class="col-sm-8">{{ appointment.reason_for_visit or '—' }}</dd>
+
+                    <dt class="col-sm-4">Submitted</dt>
+                    <dd class="col-sm-8">{{ appointment.created_at }}</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title"><i class="fas fa-edit me-2"></i>Update appointment</h2>
+            </div>
+            <div class="admin-card-body">
+
+                <form method="POST" action="{{ url_for('admin.admin_appointment_update', appointment_id=appointment.appointment_id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                    <div class="mb-3">
+                        <label class="form-label">Assign doctor</label>
+                        <select name="doctor_id" class="form-select">
+                            <option value="">— Unassigned —</option>
+                            {% for doctor in doctors %}
+                            <option value="{{ doctor.doctor_id }}"
+                                {% if appointment.doctor_id == doctor.doctor_id %}selected{% endif %}>
+                                {{ doctor.doctor_name }} ({{ doctor.specialty }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="appointment_status" class="form-select">
+                            {% for status in statuses %}
+                            <option value="{{ status }}"
+                                {% if appointment.appointment_status == status %}selected{% endif %}>
+                                {{ status }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Admin notes</label>
+                        <textarea name="admin_notes" class="form-control" rows="4"
+                            placeholder="Internal notes for staff (not sent to patient)...">{{ appointment.admin_notes or '' }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Save changes
+                    </button>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-lg-5">
+
+        <div class="admin-card mb-4">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title"><i class="fas fa-bolt me-2"></i>Quick actions</h2>
+            </div>
+            <div class="admin-card-body d-grid gap-2">
+
+                {% if appointment.appointment_status != 'Confirmed' %}
+                <form method="POST"
+                    action="{{ url_for('admin.admin_appointment_quick_action', appointment_id=appointment.appointment_id, action='confirm') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fas fa-check me-1"></i> Confirm appointment
+                    </button>
+                </form>
+                <p class="small text-muted mb-0">
+                    Sends confirmation email &amp; SMS to patient and assigned doctor.
+                </p>
+                {% endif %}
+
+                {% if appointment.appointment_status != 'Cancelled' %}
+                <form method="POST"
+                    action="{{ url_for('admin.admin_appointment_quick_action', appointment_id=appointment.appointment_id, action='cancel') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger w-100"
+                        onclick="return confirm('Cancel this appointment? Patient will be notified.')">
+                        <i class="fas fa-times me-1"></i> Cancel appointment
+                    </button>
+                </form>
+                {% endif %}
+
+                {% if appointment.appointment_status != 'Completed' %}
+                <form method="POST"
+                    action="{{ url_for('admin.admin_appointment_quick_action', appointment_id=appointment.appointment_id, action='complete') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-info text-white w-100">
+                        <i class="fas fa-flag-checkered me-1"></i> Mark completed
+                    </button>
+                </form>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h2 class="admin-card-title"><i class="fas fa-user-md me-2"></i>Assigned doctor</h2>
+            </div>
+            <div class="admin-card-body">
+                {% if appointment.doctor %}
+                <p class="mb-1 fw-bold">{{ appointment.doctor.doctor_name }}</p>
+                <p class="mb-1 text-muted">{{ appointment.doctor.specialty }}</p>
+                <p class="mb-0 small">{{ appointment.doctor.phone }}</p>
+                {% else %}
+                <p class="text-muted mb-0">No doctor assigned yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

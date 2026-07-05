@@ -1,0 +1,84 @@
+{% extends "admin_base.html" %}
+
+{% block admin_title %}Doctors{% endblock %}
+{% block admin_heading %}Doctors{% endblock %}
+
+{% block admin_subtitle %}
+<p class="admin-page-lead">Manage specialist profiles shown on the public site.</p>
+{% endblock %}
+
+{% block admin_actions %}
+<a href="{{ url_for('admin.add_doctor') }}" class="btn btn-success btn-sm">
+    <i class="fas fa-user-plus me-1"></i> Add doctor
+</a>
+{% endblock %}
+
+{% block admin_content %}
+
+<div class="admin-card">
+    <div class="admin-card-body table-responsive p-0">
+
+        <table class="table admin-table mb-0">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Specialty</th>
+                    <th>Qualifications</th>
+                    <th>Experience</th>
+                    <th>Phone</th>
+                    <th>Fee</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for doctor in doctors %}
+
+                <tr>
+                    <td><span class="text-muted">#{{ doctor.doctor_id }}</span></td>
+                    <td class="fw-semibold">{{ doctor.doctor_name }}</td>
+                    <td>{{ doctor.specialty }}</td>
+                    <td>{{ doctor.qualifications }}</td>
+                    <td>{{ doctor.experience_years or '—' }}</td>
+                    <td>{{ doctor.phone }}</td>
+                    <td>{% if doctor.consultation_fee %}KES {{ doctor.consultation_fee }}{% else %}—{% endif %}</td>
+                    <td>
+                        <span class="badge bg-{{ 'success' if doctor.availability_status == 'Available' else 'secondary' }}">
+                            {{ doctor.availability_status }}
+                        </span>
+                    </td>
+                    <td class="text-end text-nowrap">
+                        <a href="{{ url_for('admin.edit_doctor', doctor_id=doctor.doctor_id) }}" class="btn btn-outline-primary btn-sm">
+                            Edit
+                        </a>
+                        <form method="POST" action="{{ url_for('admin.delete_doctor', doctor_id=doctor.doctor_id) }}" class="d-inline"
+                            onsubmit="return confirm('Delete this doctor?')">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="9" class="text-center text-muted py-5">
+                        <i class="fas fa-user-md fa-2x mb-2 d-block opacity-50"></i>
+                        No doctors yet. <a href="{{ url_for('admin.add_doctor') }}">Add the first doctor</a>.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+
+{% endblock %}

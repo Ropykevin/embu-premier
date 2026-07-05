@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+
+{% block title %}
+Administrator Login | Embu Premier Physicians Clinic
+{% endblock %}
+
+{% block content %}
+
+<section class="admin-login-section">
+
+    <div class="container">
+
+        <div class="row justify-content-center align-items-center min-vh-100">
+
+            <div class="col-lg-10">
+
+                <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+
+                    <div class="row g-0">
+
+                        <!-- LEFT SIDE -->
+
+                        <div class="col-lg-6 admin-image">
+
+                            <div class="admin-overlay">
+
+                                <img src="{{ url_for('static', filename='images/logo.png') }}" class="admin-logo mb-4"
+                                    alt="Clinic Logo">
+
+                                <h2 class="fw-bold">
+
+                                    Embu Premier Physicians Clinic
+
+                                </h2>
+
+                                <p class="lead">
+
+                                    Secure Administration Portal
+
+                                </p>
+
+                                <hr class="bg-white">
+
+                                <p>
+
+                                    Manage appointments, doctors,
+                                    patients and clinic operations
+                                    from one secure platform.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT SIDE -->
+
+                        <div class="col-lg-6">
+
+                            <div class="p-5">
+
+                                <div class="text-center mb-4">
+
+                                    <i class="fas fa-user-shield fa-4x text-primary mb-3"></i>
+
+                                    <h2 class="fw-bold">
+
+                                        Administrator Login
+
+                                    </h2>
+
+                                    <p class="text-muted">
+
+                                        Enter your credentials to continue.
+
+                                    </p>
+
+                                </div>
+
+                                <!-- Flash Messages -->
+
+                                {% with messages = get_flashed_messages(with_categories=true) %}
+                                {% if messages %}
+                                {% for category, message in messages %}
+
+                                <div class="alert alert-{{ category }}">
+
+                                    {{ message }}
+
+                                </div>
+
+                                {% endfor %}
+                                {% endif %}
+                                {% endwith %}
+
+                                <!-- Login Form -->
+
+                                <form method="POST">
+                                {{ form.hidden_tag() }}
+
+                                    <div class="mb-4">
+
+                                        <label class="form-label">
+
+                                            Username
+
+                                        </label>
+
+                                        <div class="input-group">
+
+                                            <span class="input-group-text">
+
+                                                <i class="fas fa-user"></i>
+
+                                            </span>
+
+                                            <input type="text" name="username" class="form-control"
+                                                placeholder="Username" required>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-4">
+
+                                        <label class="form-label">
+
+                                            Password
+
+                                        </label>
+
+                                        <div class="input-group">
+
+                                            <span class="input-group-text">
+
+                                                <i class="fas fa-lock"></i>
+
+                                            </span>
+
+                                            <input type="password" name="password" id="password" class="form-control"
+                                                placeholder="Password" required>
+
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                onclick="togglePassword()">
+
+                                                <i class="fas fa-eye" id="eyeIcon"></i>
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-check mb-4">
+
+                                        <input class="form-check-input" type="checkbox" id="remember">
+
+                                        <label class="form-check-label" for="remember">
+
+                                            Remember Me
+
+                                        </label>
+
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+
+                                        <i class="fas fa-sign-in-alt me-2"></i>
+
+                                        Login
+
+                                    </button>
+
+                                </form>
+
+                                <hr>
+
+                                <div class="text-center">
+
+                                    <a href="{{ url_for('public.index') }}" class="btn btn-outline-primary">
+
+                                        <i class="fas fa-home me-2"></i>
+
+                                        Back to Homepage
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+    function togglePassword() {
+
+        let password = document.getElementById("password");
+
+        let eye = document.getElementById("eyeIcon");
+
+        if (password.type === "password") {
+
+            password.type = "text";
+
+            eye.classList.remove("fa-eye");
+
+            eye.classList.add("fa-eye-slash");
+
+        }
+
+        else {
+
+            password.type = "password";
+
+            eye.classList.remove("fa-eye-slash");
+
+            eye.classList.add("fa-eye");
+
+        }
+
+    }
+
+</script>
+
+{% endblock %}
