@@ -28,7 +28,7 @@ mkdir -p certbot/www certbot/conf nginx/conf.d
 
 echo "Starting stack with HTTP-only nginx for certificate challenge..."
 cp nginx/conf.d/default.http.conf nginx/conf.d/default.conf
-$COMPOSE -f docker-compose.prod.yml up -d db web nginx
+$COMPOSE -f docker-compose.prod.yml --profile ssl up -d db web nginx
 
 echo "Requesting certificate for ${DOMAIN}..."
 docker run --rm \
@@ -46,7 +46,7 @@ echo "Generating HTTPS nginx config..."
 sed "s/\${DOMAIN}/${DOMAIN}/g" nginx/conf.d/default.conf.template > nginx/conf.d/default.conf
 
 echo "Restarting nginx with SSL..."
-$COMPOSE -f docker-compose.prod.yml up -d nginx certbot
+$COMPOSE -f docker-compose.prod.yml --profile ssl up -d nginx certbot
 
 echo ""
 echo "SSL setup complete."
@@ -54,5 +54,8 @@ echo "Site: https://${DOMAIN}"
 echo ""
 echo "Add to your .env:"
 echo "  DOMAIN=${DOMAIN}"
+echo "  HTTPS_ENABLED=true"
 echo "  SESSION_COOKIE_SECURE=true"
-echo "  MAIL_ENABLED=true"
+echo ""
+echo "Then restart the web container:"
+echo "  docker compose -f docker-compose.prod.yml up -d web"

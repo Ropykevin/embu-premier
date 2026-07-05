@@ -14,10 +14,11 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-embu_premier_clinic}
       FLASK_DEBUG: "0"
       PORT: "8005"
-      SESSION_COOKIE_SECURE: "true"
+      HTTPS_ENABLED: "${HTTPS_ENABLED:-false}"
+      SESSION_COOKIE_SECURE: "${SESSION_COOKIE_SECURE:-false}"
       SEED_SAMPLE_DOCTORS: "0"
-    expose:
-      - "8005"
+    ports:
+      - "0.0.0.0:${WEB_PORT:-8005}:8005"
     volumes:
       - uploads_data:/app/static/uploads
     depends_on:
@@ -55,6 +56,7 @@ services:
       start_period: 10s
 
   nginx:
+    profiles: ["ssl"]
     image: nginx:1.27-alpine
     container_name: embu_clinic_nginx
     restart: unless-stopped
@@ -72,6 +74,7 @@ services:
       - clinic_net
 
   certbot:
+    profiles: ["ssl"]
     image: certbot/certbot:v2.11.0
     container_name: embu_clinic_certbot
     volumes:

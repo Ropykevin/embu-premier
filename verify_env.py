@@ -40,7 +40,8 @@ def main():
 
     print("\n=== Configuration ===\n")
     print(f"  PRODUCTION in .env: {os.getenv('PRODUCTION') or '(not set — docker-compose.prod sets true)'}")
-    print(f"  SESSION_COOKIE_SECURE: {os.getenv('SESSION_COOKIE_SECURE') or '(auto true when PRODUCTION=true)'}")
+    print(f"  SESSION_COOKIE_SECURE: {os.getenv('SESSION_COOKIE_SECURE') or '(defaults to HTTPS_ENABLED)'}")
+    print(f"  HTTPS_ENABLED: {os.getenv('HTTPS_ENABLED') or 'false (use port 8005 until SSL)'}")
     print(f"  FLASK_DEBUG: {os.getenv('FLASK_DEBUG', 'not set')}")
     print(f"  AT_SANDBOX: {os.getenv('AT_SANDBOX', 'not set')}")
     print(f"  AT_USERNAME: {os.getenv('AT_USERNAME', 'not set')}")
@@ -66,7 +67,8 @@ def main():
 
     print("\n=== Simulated production startup ===\n")
     os.environ["PRODUCTION"] = "true"
-    os.environ["SESSION_COOKIE_SECURE"] = "true"
+    os.environ.setdefault("SESSION_COOKIE_SECURE", "false")
+    os.environ.setdefault("HTTPS_ENABLED", "false")
     try:
         from app import create_app
 

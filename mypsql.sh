@@ -155,12 +155,13 @@ cmd_stamp() {
 cmd_prod_up() {
   load_env
   ensure_backup_dir
-  mkdir -p certbot/www certbot/conf nginx/conf.d
-  cp nginx/conf.d/default.http.conf nginx/conf.d/default.conf
-  $COMPOSE -f docker-compose.prod.yml up -d --build
+  $COMPOSE -f docker-compose.prod.yml up -d --build web db
   echo ""
-  echo "Production stack running on ports 80 and 443."
-  echo "Run ./ssl-setup.sh yourdomain.com you@email.com for HTTPS."
+  echo "Production stack running on port ${WEB_PORT:-8005}."
+  echo "Open: http://YOUR_SERVER_IP:${WEB_PORT:-8005}"
+  echo "Admin: http://YOUR_SERVER_IP:${WEB_PORT:-8005}/admin/login"
+  echo ""
+  echo "When you have a domain, run: ./mypsql.sh ssl yourdomain.com you@email.com"
 }
 
 cmd_prod_down() {

@@ -68,8 +68,10 @@ def validate_production_settings(app):
             "PRODUCTION requires a strong SECRET_KEY (32+ random characters)."
         )
 
-    if not app.config.get("SESSION_COOKIE_SECURE"):
-        raise RuntimeError("PRODUCTION requires SESSION_COOKIE_SECURE=true.")
+    if app.config.get("HTTPS_ENABLED") and not app.config.get("SESSION_COOKIE_SECURE"):
+        raise RuntimeError(
+            "PRODUCTION with HTTPS_ENABLED requires SESSION_COOKIE_SECURE=true."
+        )
 
     admin_pwd = app.config.get("ADMIN_PASSWORD_CHECK", "")
     if not admin_pwd or admin_pwd in WEAK_ADMIN_PASSWORDS or len(admin_pwd) < 12:
