@@ -27,6 +27,12 @@ COPY --from=builder /install /usr/local
 
 COPY . .
 
+# Linux is case-sensitive; templates use images/logo.png
+RUN if [ -f static/images/Logo.png ] && [ ! -f static/images/logo.png ]; then \
+      mv static/images/Logo.png static/images/logo.png; \
+    fi \
+    && test -f static/images/logo.png
+
 RUN chmod +x entrypoint.sh \
     && useradd --create-home --shell /bin/bash appuser \
     && chown -R appuser:appuser /app
