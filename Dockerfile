@@ -17,7 +17,7 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     FLASK_APP=manage.py \
-    PORT=8000
+    PORT=8005
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends libpq5 postgresql-client \
@@ -33,9 +33,9 @@ RUN chmod +x entrypoint.sh \
 
 USER appuser
 
-EXPOSE 8000
+EXPOSE 8005
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')" || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8005/health')" || exit 1
 
 CMD ["./entrypoint.sh"]

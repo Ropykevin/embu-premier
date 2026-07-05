@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-PORT="${PORT:-8000}"
+PORT="${PORT:-8005}"
 WORKERS="${GUNICORN_WORKERS:-2}"
 TIMEOUT="${GUNICORN_TIMEOUT:-120}"
 

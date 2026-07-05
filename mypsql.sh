@@ -76,7 +76,7 @@ cmd_up() {
   ensure_backup_dir
   $COMPOSE up -d --build
   echo ""
-  echo "Dev stack running on http://127.0.0.1:${WEB_PORT:-8000} (localhost only)"
+  echo "Dev stack running on http://127.0.0.1:${WEB_PORT:-8005} (localhost only)"
   echo "For VPS production use: ./mypsql.sh prod-up"
 }
 

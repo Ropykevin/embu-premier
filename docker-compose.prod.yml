@@ -13,11 +13,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_DB: ${POSTGRES_DB:-embu_premier_clinic}
       FLASK_DEBUG: "0"
-      PORT: "8000"
+      PORT: "8005"
       SESSION_COOKIE_SECURE: "true"
       SEED_SAMPLE_DOCTORS: "0"
     expose:
-      - "8000"
+      - "8005"
     volumes:
       - uploads_data:/app/static/uploads
     depends_on:
@@ -26,7 +26,7 @@ services:
     networks:
       - clinic_net
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8005/health')"]
       interval: 30s
       timeout: 5s
       retries: 3
