@@ -31,6 +31,7 @@ cp nginx/conf.d/default.http.conf nginx/conf.d/default.conf
 $COMPOSE -f docker-compose.prod.yml --profile ssl up -d db web nginx
 
 echo "Requesting certificate for ${DOMAIN}..."
+echo "Ensure DNS A record points ${DOMAIN} -> this server's public IP before continuing."
 docker run --rm \
   -v "$(pwd)/certbot/www:/var/www/certbot" \
   -v "$(pwd)/certbot/conf:/etc/letsencrypt" \
