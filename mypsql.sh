@@ -161,7 +161,9 @@ cmd_prod_up() {
   echo "Open: http://YOUR_SERVER_IP:${WEB_PORT:-8005}"
   echo "Admin: http://YOUR_SERVER_IP:${WEB_PORT:-8005}/admin/login"
   echo ""
-  echo "When you have a domain, run: ./mypsql.sh ssl yourdomain.com you@email.com"
+  echo "When you have a domain:"
+  echo "  Host nginx already on port 80: sudo ./host-ssl-setup.sh yourdomain.com you@email.com"
+  echo "  Dedicated server (port 80 free): ./mypsql.sh ssl yourdomain.com you@email.com"
 }
 
 cmd_prod_down() {
@@ -175,6 +177,16 @@ cmd_ssl() {
   fi
   chmod +x ssl-setup.sh
   ./ssl-setup.sh "$2" "$3"
+}
+
+cmd_host_ssl() {
+  if [ -z "${2:-}" ] || [ -z "${3:-}" ]; then
+    echo "Usage: sudo ./mypsql.sh host-ssl yourdomain.com admin@yourdomain.com"
+    echo "(Use when host nginx already listens on port 80)"
+    exit 1
+  fi
+  chmod +x host-ssl-setup.sh
+  exec sudo ./host-ssl-setup.sh "$2" "$3"
 }
 
 cmd_test() {
@@ -228,13 +240,16 @@ case "${1:-}" in
   ssl)
     cmd_ssl "$@"
     ;;
+  host-ssl)
+    cmd_host_ssl "$@"
+    ;;
   test)
     cmd_test
     ;;
   *)
     echo "Embu Premier Clinic - DatabaseMart VPS helper"
     echo ""
-    echo "Usage: ./mypsql.sh {setup|up|down|restart|logs|status|shell|backup|restore|init|migrate|stamp|prod-up|prod-down|ssl|test}"
+    echo "Usage: ./mypsql.sh {setup|up|down|restart|logs|status|shell|backup|restore|init|migrate|stamp|prod-up|prod-down|ssl|host-ssl|test}"
     exit 1
     ;;
 esac
