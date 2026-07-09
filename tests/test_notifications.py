@@ -1,5 +1,6 @@
 from unittest.mock import patch
 
+import json
 import pytest
 
 from app.services import notification_service, sms_service
@@ -52,6 +53,34 @@ def test_send_sms_suppressed(app):
     with app.app_context():
         result = sms_service.send_sms("+254712345678", "Test message")
     assert result is True
+
+
+def test_parse_at_response_success():
+    body = json.dumps({
+        "SMSMessageData": {
+            "Message": "Sent to 1/1 Total Cost: KES 1.00",
+            "Recipients": [{
+                "statusCode": 101,
+                "number": "+254712345678",
+                "status": "Success",
+                "messageId": "ATXid_123",
+            }],
+        }
+    })
+    assert sms_service._parse_at_response(body, "+254712345678") is True
+
+
+def test_parse_at_response_invalid_sender():
+    body = json.dumps({
+        "SMSMessageData": {
+            "Recipients": [{
+                "statusCode": 402,
+                "number": "+254712345678",
+                "status": "InvalidSenderId",
+            }],
+        }
+    })
+    assert sms_service._parse_at_response(body, "+254712345678") is False
 
 
 def test_confirmation_notifies_patient_and_doctor(app, sample_doctor):

@@ -1,3 +1,4 @@
+import json
 import logging
 import re
 import urllib.error
@@ -7,6 +8,18 @@ import urllib.request
 from flask import current_app
 
 logger = logging.getLogger(__name__)
+
+# Africa's Talking recipient status codes (HTTP 200 can still contain failures)
+AT_SUCCESS_CODES = frozenset({100, 101, 102})
+AT_STATUS_HINTS = {
+    402: "Invalid sender ID — remove AT_FROM or get EmbuPremier approved in AT dashboard",
+    403: "Invalid phone number format",
+    405: "Insufficient SMS balance — top up Africa's Talking account",
+    406: "Number is blacklisted",
+    407: "Could not route SMS to this carrier",
+    501: "Rejected by mobile network gateway",
+    502: "Rejected by gateway — often unapproved sender ID",
+}
 
 
 def normalize_phone(phone):
@@ -24,6 +37,51 @@ def normalize_phone(phone):
     if len(cleaned) == 9:
         return "+254" + cleaned
     return "+" + cleaned if not cleaned.startswith("+") else cleaned
+
+
+def _parse_at_response(body, phone):
+    """Return True only when AT reports the message was sent/queued."""
+    try:
+        data = json.loads(body)
+    except json.JSONDecodeError:
+        logger.warning("Africa's Talking returned non-JSON response: %s", body[:500])
+        return True
+
+    message_data = data.get("SMSMessageData", {})
+    recipients = message_data.get("Recipients", [])
+    if not recipients:
+        summary = message_data.get("Message", body[:200])
+        logger.warning("Africa's Talking response had no recipients: %s", summary)
+        return False
+
+    ok = True
+    for recipient in recipients:
+        status = recipient.get("status", "Unknown")
+        status_code = recipient.get("statusCode")
+        number = recipient.get("number", phone)
+        message_id = recipient.get("messageId", "")
+        tail = number[-4:] if number else phone[-4:]
+
+        if status_code in AT_SUCCESS_CODES:
+            logger.info(
+                "Africa's Talking SMS %s to ****%s (code=%s, id=%s)",
+                status,
+                tail,
+                status_code,
+                message_id,
+            )
+        else:
+            ok = False
+            hint = AT_STATUS_HINTS.get(status_code, "")
+            logger.error(
+                "Africa's Talking SMS FAILED to ****%s: status=%s code=%s %s",
+                tail,
+                status,
+                status_code,
+                f"— {hint}" if hint else "",
+            )
+
+    return ok
 
 
 def _send_via_africas_talking(phone, message):
@@ -62,8 +120,7 @@ def _send_via_africas_talking(phone, message):
     try:
         with urllib.request.urlopen(request, timeout=30) as response:
             body = response.read().decode("utf-8")
-            logger.info("Africa's Talking SMS sent successfully to ****%s", phone[-4:])
-            return True
+            return _parse_at_response(body, phone)
     except urllib.error.HTTPError as exc:
         error_body = exc.read().decode("utf-8", errors="replace")
         logger.error(
