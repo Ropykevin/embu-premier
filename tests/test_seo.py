@@ -29,6 +29,20 @@ def test_homepage_has_seo_tags(client):
     assert 'name="google-site-verification"' in body
     assert "test-verification-code" in body
     assert 'property="og:title"' in body
+    assert "application/ld+json" in body
+    assert "MedicalBusiness" in body
+    assert "Embu Town" in body
+    assert "Specialist Doctors in" in body
+
+
+def test_doctor_profile_has_physician_schema(client, sample_doctor):
+    response = client.get(f"/doctor/{sample_doctor.doctor_id}")
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    assert "application/ld+json" in body
+    assert "Physician" in body
+    assert sample_doctor.doctor_name in body
+    assert "in Embu" in body
 
 
 def test_admin_login_is_noindex(client):

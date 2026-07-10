@@ -90,6 +90,10 @@ class Config:
     else:
         MAIL_ENABLED = bool(SMTP_USER and SMTP_PASSWORD)
     CLINIC_NAME = os.environ.get("CLINIC_NAME", "Embu Premier Physicians Clinic")
+    CLINIC_PHONE = os.environ.get("CLINIC_PHONE", "+254792718222")
+    CLINIC_EMAIL = _env_first("CLINIC_EMAIL", "ADMIN_NOTIFY_EMAIL", "EMAIL_SENDER", default="")
+    CLINIC_ADDRESS_LOCALITY = os.environ.get("CLINIC_ADDRESS_LOCALITY", "Embu Town")
+    CLINIC_ADDRESS_REGION = os.environ.get("CLINIC_ADDRESS_REGION", "Embu County")
 
     # SEO / public site URL
     DOMAIN = os.environ.get("DOMAIN", "").strip()

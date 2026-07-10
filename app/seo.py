@@ -1,8 +1,19 @@
-"""SEO helpers: site URL, canonical links, sitemap, robots.txt."""
+"""SEO helpers: site URL, canonical links, sitemap, robots.txt, structured data."""
 
 from xml.etree.ElementTree import Element, SubElement, tostring
 
 from flask import current_app, request, url_for
+
+MEDICAL_SPECIALTIES = [
+    "Family Medicine",
+    "General Surgery",
+    "Neurosurgery",
+    "Otolaryngology",
+    "Obstetrics and Gynecology",
+    "Radiology",
+    "Ophthalmology",
+    "Urology",
+]
 
 
 def build_site_url(domain=None, https_enabled=None, web_port=None):
@@ -93,6 +104,75 @@ def render_robots_txt():
     ).lstrip()
 
 
+def build_medical_business_ld():
+    """Schema.org MedicalBusiness JSON-LD for local SEO."""
+    site_url = current_app.config.get("SITE_URL") or build_site_url()
+    if not site_url:
+        return None
+
+    clinic_name = current_app.config.get("CLINIC_NAME", "Embu Premier Physicians Clinic")
+    phone = current_app.config.get("CLINIC_PHONE", "")
+    email = current_app.config.get("CLINIC_EMAIL", "")
+    locality = current_app.config.get("CLINIC_ADDRESS_LOCALITY", "Embu Town")
+    region = current_app.config.get("CLINIC_ADDRESS_REGION", "Embu County")
+
+    data = {
+        "@context": "https://schema.org",
+        "@type": "MedicalBusiness",
+        "name": clinic_name,
+        "url": site_url,
+        "image": f"{site_url}{url_for('static', filename='images/logo.png')}",
+        "description": (
+            "Private specialist clinic in Embu Town, Kenya offering family medicine, "
+            "surgery, neurosurgery, ENT, obstetrics, radiology, ophthalmology, and urology."
+        ),
+        "telephone": phone,
+        "email": email,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": locality,
+            "addressRegion": region,
+            "addressCountry": "KE",
+        },
+        "areaServed": {
+            "@type": "AdministrativeArea",
+            "name": region,
+        },
+        "medicalSpecialty": MEDICAL_SPECIALTIES,
+        "openingHours": "Mo-Fr 09:00-18:00",
+        "priceRange": "$$",
+    }
+    return data
+
+
+def physician_ld_for_doctor(doctor):
+    """Schema.org Physician JSON-LD for doctor profile pages."""
+    site_url = current_app.config.get("SITE_URL") or build_site_url()
+    if not site_url or not doctor:
+        return None
+
+    clinic_name = current_app.config.get("CLINIC_NAME", "Embu Premier Physicians Clinic")
+    profile_url = f"{site_url}{url_for('public.doctor_profile', doctor_id=doctor.doctor_id)}"
+
+    data = {
+        "@context": "https://schema.org",
+        "@type": "Physician",
+        "name": doctor.doctor_name,
+        "url": profile_url,
+        "medicalSpecialty": doctor.specialty,
+        "worksFor": {
+            "@type": "MedicalBusiness",
+            "name": clinic_name,
+            "url": site_url,
+        },
+    }
+    if doctor.phone:
+        data["telephone"] = doctor.phone
+    if doctor.email:
+        data["email"] = doctor.email
+    return data
+
+
 def inject_seo_context():
     site_url = current_app.config.get("SITE_URL") or build_site_url()
     return {
@@ -104,4 +184,5 @@ def inject_seo_context():
         "clinic_name": current_app.config.get(
             "CLINIC_NAME", "Embu Premier Physicians Clinic"
         ),
+        "medical_business_ld": build_medical_business_ld() if site_url else None,
     }

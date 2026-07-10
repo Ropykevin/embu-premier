@@ -8,7 +8,7 @@
     {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block robots %}{% endblock %}
-    <meta name="description" content="{% block meta_description %}Embu Premier Physicians Clinic — specialist healthcare in Embu Town, Kenya. Book appointments with experienced consultants.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}Embu Premier Physicians Clinic — specialist doctors and private hospital services in Embu Town, Kenya. Book appointments online.{% endblock %}">
     {% if canonical_url %}
     <link rel="canonical" href="{{ canonical_url }}">
     {% endif %}
@@ -21,6 +21,11 @@
     <meta property="og:url" content="{{ canonical_url }}">
     <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='images/logo.png') }}">
     {% endif %}
+    {% block structured_data %}
+    {% if medical_business_ld %}
+    <script type="application/ld+json">{{ medical_business_ld|tojson }}</script>
+    {% endif %}
+    {% endblock %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

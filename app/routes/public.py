@@ -55,7 +55,13 @@ def doctor_profile(doctor_id):
     doctor = db.session.get(Doctor, doctor_id)
     if not doctor:
         return render_template("404.html"), 404
-    return render_template("doctor_profile.html", doctor=doctor)
+    from app.seo import physician_ld_for_doctor
+
+    return render_template(
+        "doctor_profile.html",
+        doctor=doctor,
+        physician_ld=physician_ld_for_doctor(doctor),
+    )
 
 
 def _load_specialties():

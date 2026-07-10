@@ -1,11 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{ doctor.doctor_name }}
+{{ doctor.doctor_name }} — {{ doctor.specialty }} in Embu | Embu Premier Physicians Clinic
 {% endblock %}
 
 {% block meta_description %}
-{{ doctor.doctor_name }} — {{ doctor.specialty }} at Embu Premier Physicians Clinic, Embu Town, Kenya. View qualifications, experience, and book an appointment.
+{{ doctor.doctor_name }} — {{ doctor.specialty }} specialist at Embu Premier Physicians Clinic, Embu Town, Kenya. View qualifications, experience and book an appointment online.
+{% endblock %}
+
+{% block structured_data %}
+{{ super() }}
+{% if physician_ld %}
+<script type="application/ld+json">{{ physician_ld|tojson }}</script>
+{% endif %}
 {% endblock %}
 
 {% block content %}
