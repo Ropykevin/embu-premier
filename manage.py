@@ -1,5 +1,7 @@
 import os
 
+import click
+
 from app import create_app, db
 from app.config import _env_first
 from app.db_init import init_database
@@ -93,12 +95,15 @@ def test_email_command():
 
 
 @app.cli.command("test-sms")
-def test_sms_command():
-    """Send a test SMS using Africa's Talking settings."""
+@click.argument("phone", required=False)
+def test_sms_command(phone):
+    """Send a test SMS. Optional: flask test-sms +254742670714"""
+    import logging
+
     from app.services.sms_service import normalize_phone, send_sms
 
     cfg = app.config
-    phone = cfg["ADMIN_NOTIFY_PHONE"]
+    phone = phone or cfg["ADMIN_NOTIFY_PHONE"]
     normalized = normalize_phone(phone)
 
     print("SMS configuration:")
@@ -106,7 +111,7 @@ def test_sms_command():
     print(f"  AT_USERNAME:  {cfg['AT_USERNAME']}")
     print(f"  AT_SANDBOX:   {cfg.get('AT_SANDBOX', False)}")
     print(f"  AT_API_URL:   {cfg.get('AT_API_URL')}")
-    print(f"  AT_SENDER_ID: {cfg.get('AT_SENDER_ID') or '(skipped in sandbox)'}")
+    print(f"  AT_SENDER_ID: {cfg.get('AT_SENDER_ID') or '(none — using AT default shortcode)'}")
     print(f"  API key len:  {len(cfg.get('AT_API_KEY', ''))}")
     print(f"  NOTIFY_PHONE: {phone}")
     if normalized != phone:
@@ -123,29 +128,26 @@ def test_sms_command():
         print()
 
     with app.app_context():
-        # Temporarily log API errors to stdout for this test run
-        import logging
-
         handler = logging.StreamHandler()
-        handler.setLevel(logging.ERROR)
-        logging.getLogger("app.services.sms_service").addHandler(handler)
+        handler.setLevel(logging.INFO)
+        handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+        sms_logger = logging.getLogger("app.services.sms_service")
+        sms_logger.addHandler(handler)
+        sms_logger.setLevel(logging.INFO)
 
         ok = send_sms(
             phone,
             "Test SMS from Embu Premier Physicians Clinic. SMS is working.",
         )
+        sms_logger.removeHandler(handler)
 
     if ok:
-        print(f"SUCCESS: Test SMS sent to {normalized or phone}")
-        if cfg.get("AT_SANDBOX"):
-            print("Check the phone registered in your AT sandbox dashboard.")
+        print(f"SUCCESS: Test SMS accepted by Africa's Talking for {normalized or phone}")
+        print("Check the phone in 1–2 minutes. If not received, check AT dashboard Message Logs.")
     else:
         print("FAIL: SMS not sent.")
-        if cfg.get("AT_SANDBOX"):
-            print("  1. Restart the app after editing .env (AT_SANDBOX=true).")
-            print("  2. Use the sandbox API key from africastalking.com (not production).")
-            print("  3. Register +254792718222 in the sandbox test numbers.")
-        else:
-            print("  1. AT_USERNAME must match your Africa's Talking dashboard username.")
-            print("  2. AT_API_KEY must be the production key for that account.")
-            print("  3. Or set AT_SANDBOX=true for testing.")
+        print("Common fixes:")
+        print("  406 blacklist  → remove number in AT dashboard SMS blacklist")
+        print("  402 sender ID  → keep AT_FROM empty until EmbuPremier is approved")
+        print("  405 balance    → top up Africa's Talking account")
+        print("  401 auth       → check AT_USERNAME=embupremier and production API key")
