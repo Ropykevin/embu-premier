@@ -36,6 +36,11 @@ class BookAppointmentForm(FlaskForm):
         choices=[],
         validators=[DataRequired()],
     )
+    doctor_id = SelectField(
+        "Preferred consultant",
+        choices=[],
+        validators=[Optional()],
+    )
     appointment_date = DateField("Date", validators=[DataRequired()])
     appointment_time = TimeField("Time", validators=[DataRequired()])
     reason_for_visit = TextAreaField(

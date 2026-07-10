@@ -1,7 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, Response, flash, redirect, render_template, url_for
-from sqlalchemy import distinct
+from flask import Blueprint, Response, flash, redirect, render_template, request, url_for
 
 from app import db
 from app.extensions import limiter
@@ -11,6 +10,7 @@ from app.security_utils import is_valid_email
 from app.services.notification_service import notify_appointment_booked
 from app.services.email_service import notify_new_contact_message
 from app.seo import render_robots_txt, render_sitemap_xml
+from app.specialties import CLINIC_SPECIALTIES, SPECIALTY_INFO, is_valid_clinic_specialty, normalize_specialty_name
 
 public_bp = Blueprint("public", __name__)
 
@@ -65,31 +65,99 @@ def doctor_profile(doctor_id):
 
 
 def _load_specialties():
-    rows = (
-        db.session.query(distinct(Doctor.specialty))
-        .filter(Doctor.specialty.isnot(None))
-        .order_by(Doctor.specialty)
+    """Return all clinic specialties (not limited to doctors currently in the DB)."""
+    return list(CLINIC_SPECIALTIES)
+
+
+def _load_available_doctors():
+    return (
+        Doctor.query.filter_by(availability_status="Available")
+        .order_by(Doctor.specialty, Doctor.doctor_name)
         .all()
     )
-    return [row[0] for row in rows]
+
+
+def _doctor_select_choices(doctors):
+    return [("", "Any available consultant")] + [
+        (str(doctor.doctor_id), f"{doctor.doctor_name} ({doctor.specialty})")
+        for doctor in doctors
+    ]
+
+
+def _doctors_json(doctors):
+    return [
+        {
+            "id": doctor.doctor_id,
+            "name": doctor.doctor_name,
+            "specialty": normalize_specialty_name(doctor.specialty) or doctor.specialty,
+        }
+        for doctor in doctors
+    ]
+
+
+def _configure_booking_form(form, doctors, preselected_doctor=None):
+    specialty_names = _load_specialties()
+    form.specialty.choices = [("", "Select specialty")] + [
+        (name, name) for name in specialty_names
+    ]
+    form.doctor_id.choices = _doctor_select_choices(doctors)
+
+    if preselected_doctor:
+        normalized = normalize_specialty_name(preselected_doctor.specialty)
+        if normalized in specialty_names:
+            form.specialty.data = normalized
+        form.doctor_id.data = str(preselected_doctor.doctor_id)
+    elif request.args.get("specialty"):
+        requested = normalize_specialty_name(request.args.get("specialty"))
+        if requested in specialty_names:
+            form.specialty.data = requested
 
 
 @public_bp.route("/book-appointment", methods=["GET", "POST"])
 @limiter.limit("5 per hour", methods=["POST"])
 def book_appointment():
     specialty_names = _load_specialties()
+    doctors = _load_available_doctors()
     form = BookAppointmentForm()
-    form.specialty.choices = [(name, name) for name in specialty_names]
+
+    preselected_doctor = None
+    doctor_id_arg = request.args.get("doctor_id", type=int)
+    if doctor_id_arg:
+        preselected_doctor = db.session.get(Doctor, doctor_id_arg)
+
+    _configure_booking_form(form, doctors, preselected_doctor)
 
     if form.validate_on_submit():
-        specialty = form.specialty.data
-        if specialty not in specialty_names:
+        specialty = normalize_specialty_name(form.specialty.data)
+        if not is_valid_clinic_specialty(specialty):
             flash("Please select a valid specialty.", "danger")
             return render_template(
                 "book_appointment.html",
                 form=form,
-                specialties=specialty_names,
+                specialty_info=SPECIALTY_INFO,
+                doctors_json=_doctors_json(doctors),
             )
+
+        doctor_id = None
+        if form.doctor_id.data:
+            try:
+                doctor_id = int(form.doctor_id.data)
+            except (TypeError, ValueError):
+                doctor_id = None
+
+        if doctor_id:
+            doctor = db.session.get(Doctor, doctor_id)
+            if not doctor or doctor.availability_status != "Available":
+                flash("Please select a valid consultant.", "danger")
+                return render_template(
+                    "book_appointment.html",
+                    form=form,
+                    specialty_info=SPECIALTY_INFO,
+                    doctors_json=_doctors_json(doctors),
+                )
+            doctor_specialty = normalize_specialty_name(doctor.specialty)
+            if doctor_specialty and doctor_specialty != specialty:
+                specialty = doctor_specialty
 
         email = (form.email.data or "").strip() or None
         if email and not is_valid_email(email):
@@ -97,7 +165,8 @@ def book_appointment():
             return render_template(
                 "book_appointment.html",
                 form=form,
-                specialties=specialty_names,
+                specialty_info=SPECIALTY_INFO,
+                doctors_json=_doctors_json(doctors),
             )
 
         appointment = Appointment(
@@ -105,7 +174,7 @@ def book_appointment():
             phone=form.phone.data.strip(),
             email=email,
             specialty=specialty,
-            doctor_id=None,
+            doctor_id=doctor_id,
             appointment_date=form.appointment_date.data,
             appointment_time=form.appointment_time.data,
             reason_for_visit=(form.reason_for_visit.data or "").strip() or None,
@@ -125,7 +194,8 @@ def book_appointment():
     return render_template(
         "book_appointment.html",
         form=form,
-        specialties=specialty_names,
+        specialty_info=SPECIALTY_INFO,
+        doctors_json=_doctors_json(doctors),
     )
 
 

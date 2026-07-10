@@ -2,6 +2,23 @@ from app import db
 from app.models import Appointment
 
 
+def test_book_appointment_shows_all_specialties(client, sample_doctor):
+    response = client.get("/book-appointment")
+    assert response.status_code == 200
+    body = response.get_data(as_text=True)
+    for specialty in (
+        "Family Physician",
+        "General Surgeon",
+        "Neurosurgeon",
+        "ENT Surgeon",
+        "Obstetrician &amp; Gynaecologist",
+        "Radiologist",
+        "Ophthalmologist",
+        "Urologist",
+    ):
+        assert specialty in body
+
+
 def test_book_appointment_creates_record(client, sample_doctor):
     response = client.post(
         "/book-appointment",

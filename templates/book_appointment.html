@@ -60,7 +60,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                     <div class="col-md-6 mb-3">
 
-                                        <label class="form-label">
+                                        <label class="form-label" for="patient_name">
 
                                             <i class="fas fa-user text-primary"></i>
 
@@ -68,14 +68,17 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                         </label>
 
-                                        <input type="text" name="patient_name" class="form-control"
-                                            placeholder="Enter Full Name" required>
+                                        {{ form.patient_name(class="form-control", placeholder="Enter Full Name") }}
+
+                                        {% for error in form.patient_name.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
 
                                     </div>
 
                                     <div class="col-md-6 mb-3">
 
-                                        <label class="form-label">
+                                        <label class="form-label" for="phone">
 
                                             <i class="fas fa-phone text-primary"></i>
 
@@ -83,8 +86,11 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                         </label>
 
-                                        <input type="text" name="phone" class="form-control" placeholder="+254..."
-                                            required>
+                                        {{ form.phone(class="form-control", placeholder="+254...") }}
+
+                                        {% for error in form.phone.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                        {% endfor %}
 
                                     </div>
 
@@ -92,7 +98,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                 <div class="mb-3">
 
-                                    <label class="form-label">
+                                    <label class="form-label" for="email">
 
                                         <i class="fas fa-envelope text-primary"></i>
 
@@ -100,39 +106,48 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                     </label>
 
-                                    <input type="email" name="email" class="form-control"
-                                        placeholder="example@email.com">
+                                    {{ form.email(class="form-control", placeholder="example@email.com") }}
+
+                                    {% for error in form.email.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
 
                                 </div>
 
-                                <!-- Select Consultant -->
-
                                 <div class="mb-4">
 
-                                    <label class="form-label">
+                                    <label class="form-label" for="specialty">
 
-                                        <i class="fas fa-user-md text-primary me-2"></i>
+                                        <i class="fas fa-stethoscope text-primary me-2"></i>
 
-                                        Select Consultant
+                                        Select Specialty
 
                                     </label>
 
-                                    <select name="specialty" id="specialty" class="form-select" required
-                                        onchange="showSpecialtyInfo()">
+                                    {{ form.specialty(class="form-select", id="specialty") }}
 
-                                        <option value="">Select Consultant</option>
+                                    {% for error in form.specialty.errors %}
+                                    <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
 
-                                        {% for specialty in specialties %}
+                                </div>
 
-                                        <option value="{{ specialty }}">
+                                <div class="mb-4">
 
-                                            {{ specialty }}
+                                    <label class="form-label" for="doctor_id">
 
-                                        </option>
+                                        <i class="fas fa-user-md text-primary me-2"></i>
 
-                                        {% endfor %}
+                                        Preferred Consultant <span class="text-muted">(optional)</span>
 
-                                    </select>
+                                    </label>
+
+                                    {{ form.doctor_id(class="form-select", id="doctor_id") }}
+
+                                    <div class="form-text">
+                                        Choose a specific consultant or leave as “Any available consultant”.
+                                    </div>
+
                                 </div>
 
                                 <!-- Consultant Information Card -->
@@ -161,7 +176,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                     <div class="col-md-6 mb-3">
 
-                                        <label class="form-label">
+                                        <label class="form-label" for="appointment_date">
 
                                             <i class="fas fa-calendar-alt text-primary"></i>
 
@@ -169,13 +184,13 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                         </label>
 
-                                        <input type="date" name="appointment_date" class="form-control" required>
+                                        {{ form.appointment_date(class="form-control") }}
 
                                     </div>
 
                                     <div class="col-md-6 mb-3">
 
-                                        <label class="form-label">
+                                        <label class="form-label" for="appointment_time">
 
                                             <i class="fas fa-clock text-primary"></i>
 
@@ -183,7 +198,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                         </label>
 
-                                        <input type="time" name="appointment_time" class="form-control" required>
+                                        {{ form.appointment_time(class="form-control") }}
 
                                     </div>
 
@@ -191,7 +206,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                 <div class="mb-4">
 
-                                    <label class="form-label">
+                                    <label class="form-label" for="reason_for_visit">
 
                                         <i class="fas fa-notes-medical text-primary"></i>
 
@@ -199,8 +214,7 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
                                     </label>
 
-                                    <textarea name="reason_for_visit" rows="5" class="form-control"
-                                        placeholder="Briefly describe your health concern..."></textarea>
+                                    {{ form.reason_for_visit(class="form-control", rows=5, placeholder="Briefly describe your health concern...") }}
 
                                 </div>
 
@@ -349,81 +363,53 @@ Book a doctor appointment online at Embu Premier Physicians Clinic in Embu Town,
 
 <script>
 
-    const specialtyInfo = {
-
-        "Family Physician": {
-            title: "Family Physician",
-            description:
-                "Provides comprehensive healthcare for children, adults and the elderly including preventive care, diagnosis and treatment of common illnesses."
-        },
-
-        "General Surgeon": {
-            title: "General Surgeon",
-            description:
-                "Provides diagnosis and surgical treatment for abdominal conditions, hernias, breast disorders, thyroid diseases and other general surgical conditions."
-        },
-
-        "Neurosurgeon": {
-            title: "Neurosurgeon",
-            description:
-                "Specializes in the diagnosis and surgical treatment of disorders affecting the brain, spine and nervous system."
-        },
-
-        "ENT Surgeon": {
-            title: "ENT Surgeon",
-            description:
-                "Treats diseases affecting the ear, nose, throat, head and neck using medical and surgical approaches."
-        },
-
-        "Obstetrician & Gynaecologist": {
-            title: "Obstetrician & Gynaecologist",
-            description:
-                "Provides comprehensive care for women's reproductive health, pregnancy, childbirth and gynaecological conditions."
-        },
-
-        "Radiologist": {
-            title: "Radiologist",
-            description:
-                "Provides diagnostic imaging services including X-rays, Ultrasound, CT Scan and MRI interpretation."
-        },
-
-        "Ophthalmologist": {
-            title: "Ophthalmologist",
-            description:
-                "Diagnoses and treats eye diseases, performs eye surgery and helps preserve and restore vision."
-        },
-
-        "Urologist": {
-            title: "Urologist",
-            description:
-                "Specializes in diseases affecting the urinary tract and male reproductive system."
-        }
-
-    };
+    const specialtyInfo = {{ specialty_info|tojson }};
+    const clinicDoctors = {{ doctors_json|tojson }};
 
     function showSpecialtyInfo() {
+        const specialty = document.getElementById("specialty").value;
+        const card = document.getElementById("specialtyCard");
 
-        let specialty = document.getElementById("specialty").value;
-
-        let card = document.getElementById("specialtyCard");
-
-        if (specialty === "") {
-
+        if (!specialty || !specialtyInfo[specialty]) {
             card.style.display = "none";
-
             return;
-
         }
 
         card.style.display = "block";
-
-        document.getElementById("specialtyTitle").innerHTML =
-            specialtyInfo[specialty].title;
-
-        document.getElementById("specialtyDescription").innerHTML =
-            specialtyInfo[specialty].description;
-
+        document.getElementById("specialtyTitle").textContent = specialty;
+        document.getElementById("specialtyDescription").textContent = specialtyInfo[specialty];
     }
+
+    function filterDoctorsBySpecialty() {
+        const specialty = document.getElementById("specialty").value;
+        const doctorSelect = document.getElementById("doctor_id");
+        const currentValue = doctorSelect.value;
+
+        doctorSelect.innerHTML = "";
+
+        const anyOption = document.createElement("option");
+        anyOption.value = "";
+        anyOption.textContent = "Any available consultant";
+        doctorSelect.appendChild(anyOption);
+
+        clinicDoctors
+            .filter((doctor) => !specialty || doctor.specialty === specialty)
+            .forEach((doctor) => {
+                const option = document.createElement("option");
+                option.value = String(doctor.id);
+                option.textContent = `${doctor.name} (${doctor.specialty})`;
+                doctorSelect.appendChild(option);
+            });
+
+        if ([...doctorSelect.options].some((option) => option.value === currentValue)) {
+            doctorSelect.value = currentValue;
+        }
+
+        showSpecialtyInfo();
+    }
+
+    document.getElementById("specialty").addEventListener("change", filterDoctorsBySpecialty);
+    document.addEventListener("DOMContentLoaded", filterDoctorsBySpecialty);
 
 </script>
 {% endblock %}
