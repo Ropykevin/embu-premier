@@ -29,6 +29,17 @@ def _env_first(*names, default=""):
     return default
 
 
+def _site_url():
+    domain = os.environ.get("DOMAIN", "").strip()
+    if not domain:
+        return ""
+    scheme = "https" if _env_bool("HTTPS_ENABLED") else "http"
+    port = os.environ.get("WEB_PORT", os.environ.get("PORT", "8005"))
+    if scheme == "https" or port in ("80", "443"):
+        return f"{scheme}://{domain}"
+    return f"{scheme}://{domain}:{port}"
+
+
 class Config:
     PRODUCTION = _env_bool("PRODUCTION")
     SECRET_KEY = os.environ.get("SECRET_KEY")
@@ -80,6 +91,12 @@ class Config:
         MAIL_ENABLED = bool(SMTP_USER and SMTP_PASSWORD)
     CLINIC_NAME = os.environ.get("CLINIC_NAME", "Embu Premier Physicians Clinic")
 
+    # SEO / public site URL
+    DOMAIN = os.environ.get("DOMAIN", "").strip()
+    WEB_PORT = os.environ.get("WEB_PORT", os.environ.get("PORT", "8005"))
+    GOOGLE_SITE_VERIFICATION = os.environ.get("GOOGLE_SITE_VERIFICATION", "").strip()
+    SITE_URL = _site_url()
+
     # Africa's Talking
     AT_USERNAME = os.environ.get("AT_USERNAME", "")
     AT_API_KEY = os.environ.get("AT_API_KEY", "")
@@ -119,3 +136,7 @@ class TestConfig(Config):
     SMS_ENABLED = False
     SMS_SUPPRESS_SEND = True
     SESSION_COOKIE_SECURE = False
+    DOMAIN = "embupremierphysicians.co.ke"
+    HTTPS_ENABLED = True
+    SITE_URL = "https://embupremierphysicians.co.ke"
+    GOOGLE_SITE_VERIFICATION = "test-verification-code"

@@ -3,11 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
+    {% if google_site_verification %}
+    <meta name="google-site-verification" content="{{ google_site_verification }}">
+    {% endif %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Embu Premier Physicians Clinic — specialist healthcare in Embu Town, Kenya. Book appointments with experienced consultants.">
-
+    {% block robots %}{% endblock %}
+    <meta name="description" content="{% block meta_description %}Embu Premier Physicians Clinic — specialist healthcare in Embu Town, Kenya. Book appointments with experienced consultants.{% endblock %}">
+    {% if canonical_url %}
+    <link rel="canonical" href="{{ canonical_url }}">
+    {% endif %}
     <title>{% block title %}Embu Premier Physicians Clinic{% endblock %}</title>
+    {% if site_url %}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="{{ clinic_name }}">
+    <meta property="og:title" content="{{ self.title()|striptags }}">
+    <meta property="og:description" content="{{ self.meta_description()|striptags }}">
+    <meta property="og:url" content="{{ canonical_url }}">
+    <meta property="og:image" content="{{ site_url }}{{ url_for('static', filename='images/logo.png') }}">
+    {% endif %}
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

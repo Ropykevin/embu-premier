@@ -44,9 +44,11 @@ def create_app(config_class=None):
 
     from app.routes.admin import admin_bp
     from app.routes.public import public_bp
+    from app.seo import inject_seo_context
 
     app.register_blueprint(public_bp)
     app.register_blueprint(admin_bp)
+    app.context_processor(inject_seo_context)
 
     validate_production_settings(app)
 

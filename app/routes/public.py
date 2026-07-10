@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import Blueprint, flash, redirect, render_template, url_for
+from flask import Blueprint, Response, flash, redirect, render_template, url_for
 from sqlalchemy import distinct
 
 from app import db
@@ -10,8 +10,20 @@ from app.models import Appointment, ContactMessage, Doctor
 from app.security_utils import is_valid_email
 from app.services.notification_service import notify_appointment_booked
 from app.services.email_service import notify_new_contact_message
+from app.seo import render_robots_txt, render_sitemap_xml
 
 public_bp = Blueprint("public", __name__)
+
+
+@public_bp.route("/robots.txt")
+def robots_txt():
+    return Response(render_robots_txt(), mimetype="text/plain")
+
+
+@public_bp.route("/sitemap.xml")
+def sitemap_xml():
+    body = '<?xml version="1.0" encoding="UTF-8"?>\n' + render_sitemap_xml()
+    return Response(body, mimetype="application/xml")
 
 
 @public_bp.route("/")

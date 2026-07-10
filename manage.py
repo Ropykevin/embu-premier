@@ -45,6 +45,13 @@ def check_config_command():
         print("SMS sandbox mode — use sandbox API key from africastalking.com sandbox app.")
     else:
         print("SMS production mode — AT_USERNAME must match your Africa's Talking dashboard username exactly.")
+    print()
+    print("=== SEO ===")
+    print(f"  SITE_URL:                 {cfg.get('SITE_URL') or '(not set — set DOMAIN in .env)'}")
+    print(f"  GOOGLE_SITE_VERIFICATION: {'set' if cfg.get('GOOGLE_SITE_VERIFICATION') else 'not set'}")
+    if cfg.get("SITE_URL"):
+        print(f"  Sitemap:                  {cfg['SITE_URL']}/sitemap.xml")
+        print(f"  Robots:                   {cfg['SITE_URL']}/robots.txt")
 
 
 @app.cli.command("init-db")
